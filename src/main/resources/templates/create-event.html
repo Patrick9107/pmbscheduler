@@ -1,67 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Event | PMB-Scheduler</title>
-    <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/svg+xml" th:href="@{/img/favicon.svg}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="/img/logo.png" alt="PMB-Scheduler Logo">
+<header>
+    <div class="logo">
+        <img th:src="@{/img/logo.png}" alt="PMB-Scheduler Logo">
+    </div>
+    <nav>
+        <ul>
+            <li><a th:href="@{/create-event}" class="create-event">Create Event</a></li>
+            <li><a th:href="@{/index}" class="home">Home</a></li>
+            <li><a th:href="@{/about}" class="about">About</a></li>
+            <li><a th:href="@{/events}" class="events">Events</a></li>
+            <li><a th:href="@{/login}" class="login">Login</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="container">
+        <div class="form-container">
+            <form th:action="@{/create-event}" method="POST">
+                <h2>Create Event</h2>
+                <label for="event-name">Event Name</label>
+                <input type="text" id="event-name" name="event-name" required>
+
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" required>
+
+                <label for="description">Description</label>
+                <textarea id="description" name="description" required></textarea>
+
+                <button type="submit">Submit</button>
+            </form>
         </div>
-        <nav>
+        <div class="event-container">
+            <h2>Next Event</h2>
+            <p><strong>Event Name:</strong> Project Kickoff</p>
+            <p><strong>Date:</strong> 2024-06-01</p>
+            <p><strong>Location:</strong> Conference Room A</p>
+            <p><strong>Description:</strong> Initial meeting to kickoff the project.</p>
+            <h3>Registered Users</h3>
             <ul>
-                <li><a href="create-event.html" class="create-event">Create Event</a></li>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="login.html" class="login">Login</a></li>
+                <li>User 1</li>
+                <li>User 2</li>
+                <li>User 3</li>
             </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="container">
-            <div class="form-container">
-                <form action="#" method="POST">
-                    <h2>Create Event</h2>
-                    <label for="event-name">Event Name</label>
-                    <input type="text" id="event-name" name="event-name" required>
-
-                    <label for="date">Date</label>
-                    <input type="date" id="date" name="date" required>
-
-                    <label for="location">Location</label>
-                    <input type="text" id="location" name="location" required>
-
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description" required></textarea>
-
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
-            <div class="event-container">
-                <h2>Next Event</h2>
-                <p><strong>Event Name:</strong> Project Kickoff</p>
-                <p><strong>Date:</strong> 2024-06-01</p>
-                <p><strong>Location:</strong> Conference Room A</p>
-                <p><strong>Description:</strong> Initial meeting to kickoff the project.</p>
-                <h3>Registered Users</h3>
-                <ul>
-                    <li>User 1</li>
-                    <li>User 2</li>
-                    <li>User 3</li>
-                </ul>
-            </div>
         </div>
-    </main>
-    <footer>
-        <div class="footer-link">
-            <a href="imprint.html">Imprint</a>
-            <a href="terms-of-use.html">Terms of Use</a>
-        </div>
-    </footer>
+    </div>
+</main>
+<footer>
+    <div class="footer-link">
+        <a th:href="@{/imprint}">Imprint</a>
+        <a th:href="@{/terms-of-use}">Terms of Use</a>
+    </div>
+</footer>
 </body>
 </html>

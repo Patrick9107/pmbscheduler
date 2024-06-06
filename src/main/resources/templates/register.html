@@ -1,52 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | PMB-Scheduler</title>
-    <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" type="image/svg+xml" th:href="@{/img/favicon.svg}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="/img/logo.png" alt="PMB-Scheduler Logo">
-        </div>
-        <nav>
-            <ul>
-                <li><a href="create-event.html" class="create-event">Create Event</a></li>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="events.html">Events</a></li>
-                <li><a href="login.html" class="login">Login</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="form-container">
-            <form action="#" method="POST">
-                <h2>Register</h2>
-                <label for="first-name">First Name</label>
-                <input type="text" id="first-name" name="first-name" required>
-                
-                <label for="last-name">Last Name</label>
-                <input type="text" id="last-name" name="last-name" required>
-                
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required>
-                
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-                
-                <button type="submit">Register</button>
-            </form>
-        </div>
-    </main>
-    <footer>
-        <div class="footer-link">
-            <a href="imprint.html">Imprint</a>
-            <a href="terms-of-use.html">Terms of Use</a>
-        </div>
-    </footer> 
+<header>
+    <div class="logo">
+        <img th:src="@{/img/logo.png}" alt="PMB-Scheduler Logo">
+    </div>
+    <nav>
+        <ul>
+            <li><a th:href="@{/create-event}" class="create-event">Create Event</a></li>
+            <li><a th:href="@{/index}" class="home">Home</a></li>
+            <li><a th:href="@{/about}" class="about">About</a></li>
+            <li><a th:href="@{/events}" class="events">Events</a></li>
+            <li><a th:href="@{/login}" class="login">Login</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="form-container">
+        <form th:action="@{/register}" method="POST">
+            <h2>Register</h2>
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" name="first-name" required>
+
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" name="last-name" required>
+
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</main>
+<footer>
+    <div class="footer-link">
+        <a th:href="@{/imprint}">Imprint</a>
+        <a th:href="@{/terms-of-use}">Terms of Use</a>
+    </div>
+</footer>
 </body>
 </html>
