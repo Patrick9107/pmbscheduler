@@ -20,10 +20,19 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @GetMapping("/")
-    public String listAppointments(Model model){
-        List<Appointment> appointments = appointmentService.findAll();
+//    TODO FÜR ECHTE DATEN
+//    @GetMapping("/events")
+//    public String listAppointments(Model model){
+//        List<Appointment> appointments = appointmentService.findAll();
+//        model.addAttribute("appointments", appointments);
+//        return "events.html";
+//    }
+
+// FÜR FAKE DATEN
+    @GetMapping("/events")
+    public String returnAppointmentData(Model model){
+        List<Appointment> appointments = appointmentService.generateFakeAppointments(10);
         model.addAttribute("appointments", appointments);
-        return "index.html";
+        return "events.html";
     }
 }
