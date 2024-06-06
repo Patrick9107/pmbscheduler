@@ -20,10 +20,10 @@ public class PersonController {
         this.service = service;
     }
 
-    @GetMapping("/getPerson")
+    @GetMapping("/")
     public String returnPersonData(Model model){
         List<Person> persons = service.generateFakePersons(10); // Generate 10 fake persons
         model.addAttribute("persons", persons);
-        return "about.html";
+        return "index.html";
     }
 }
