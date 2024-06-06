@@ -27,14 +27,15 @@
         <div class="form-container">
             <form th:action="@{/create-event-post}" method="POST">
                 <h2>Create Event</h2>
-                <label for="event-name">Event Name</label>
-                <input type="text" id="event-name" name="event-name" required>
 
                 <label for="date">Date</label>
-                <input type="date" id="date" name="date" required>
+                <input type="date" id="date" name="appointmentDate" required>
+                <!-- style time field -->
+                <label for="time">Time</label>
+                <input type="time" id="time" name="time" required>
 
                 <label for="location">Location</label>
-                <input type="text" id="location" name="location" required>
+                <input type="text" id="location" name="address" required>
 
                 <label for="description">Description</label>
                 <textarea id="description" name="description" required></textarea>
@@ -42,12 +43,11 @@
                 <button type="submit">Submit</button>
             </form>
         </div>
-        <div class="event-container">
+        <div th:if="${appointment != null}" class="event-container">
             <h2>Next Event</h2>
-            <p><strong>Event Name:</strong> Project Kickoff</p>
-            <p><strong>Date:</strong> 2024-06-01</p>
-            <p><strong>Location:</strong> Conference Room A</p>
-            <p><strong>Description:</strong> Initial meeting to kickoff the project.</p>
+            <p><strong>Date:</strong> <span th:text="${appointment.appointmentDate}"></span></p>
+            <p><strong>Location:</strong> <span th:text="${appointment.address}"></span></p>
+            <p><strong>Description:</strong> <span th:text="${appointment.description}"></span></p>
             <h3>Registered Users</h3>
             <ul>
                 <li>User 1</li>

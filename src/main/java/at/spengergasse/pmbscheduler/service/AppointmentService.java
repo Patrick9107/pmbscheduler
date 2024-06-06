@@ -3,12 +3,15 @@ package at.spengergasse.pmbscheduler.service;
 import at.spengergasse.pmbscheduler.factory.AppointmentFactory;
 import at.spengergasse.pmbscheduler.model.Appointment;
 import at.spengergasse.pmbscheduler.repository.AppointmentRepository;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.PublicKey;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -38,5 +41,30 @@ public class AppointmentService {
         }
         return appointments;
     }
+    public List<Appointment> getSortedAppointmentsAsc() {
+        LocalDate currentDate = LocalDate.now();
+        return appointmentRepository.findByAppointmentDateAfterOrderByAppointmentDateAsc(currentDate);
+    }
+
+    public List<Appointment> getSortedAppointmentsAscSortByDateAndTime(){
+        return appointmentRepository.findAllFutureAppointmentsOrderedByDateAndTime();
+    }
+
+    public Optional<Appointment> getNextAppointment(){
+        return appointmentRepository.findNextAppointment();
+    }
+
+    public Appointment createAppointment(String description, LocalDate appointmentDate, LocalTime time, String address){
+        Appointment appointment = Appointment.builder()
+                .description(description)
+                .appointmentDate(appointmentDate)
+                .time(time)
+                .address(address)
+                .build();
+
+        return appointmentRepository.save(appointment);
+    }
+
+
 }
 
