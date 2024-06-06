@@ -35,4 +35,9 @@ public class AppointmentController {
         model.addAttribute("appointments", appointments);
         return "events.html";
     }
+
+    @GetMapping("/create-event")
+    public String viewCreateEvent(){
+        return "create-event.html";
+    }
 }

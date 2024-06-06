@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -23,7 +25,8 @@ public class Appointment {
     private Long id;
 
     private String description;
-    private LocalDateTime appointmentDateTime;
+    private LocalDate appointmentDate;
+    private LocalTime time;
     private String address;
     @CreationTimestamp
     private LocalDateTime createdOn;

@@ -19,7 +19,9 @@ public class PersonController {
         this.personService = service;
     }
 
-    @GetMapping("/")
+
+    //TODO changes the route to a proper one!
+    @GetMapping("/personData")
     public String returnPersonData(Model model){
         List<Person> persons = personService.generateFakePersons(10); // Generate 10 fake persons
         model.addAttribute("persons", persons);
