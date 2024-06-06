@@ -35,6 +35,7 @@ public class PersonService {
         List<Person> persons = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             persons.add(personFactory.createFakePerson());
+            personRepository.save(persons.get(i));
         }
         return persons;
     }
