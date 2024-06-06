@@ -16,8 +16,10 @@ public class AppointmentService {
     private AppointmentFactory appointmentFactory;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, AppointmentFactory appointmentFactory) {
         this.appointmentRepository = appointmentRepository;
+        this.appointmentFactory = appointmentFactory;   
+
     }
 
     public List<Appointment> findAll(){
