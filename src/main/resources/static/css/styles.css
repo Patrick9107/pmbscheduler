@@ -157,6 +157,11 @@ footer a {
     appearance: none; /* Remove default styling */
 }
 
+.form-container input[type="date"],
+.form-container input[type="time"] {
+    text-align: center; /* Center the text */
+}
+
 .form-container button {
     background-color: red;
     color: white;
@@ -294,6 +299,7 @@ textarea {
     margin: 0 auto 1.25rem; /* 20px */
     display: block; /* Center the input fields */
     box-sizing: border-box;
+    text-align: center; /* Center the text */
 }
 
 /* Additional Styles for Create Event Page */
