@@ -1,15 +1,12 @@
 package at.spengergasse.pmbscheduler.controller;
 
 import at.spengergasse.pmbscheduler.service.AuthoritiesService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class StaticViewController {
@@ -59,6 +56,6 @@ public class StaticViewController {
         List<String> authorities = authoritiesService.getAutorities();
         model.addAttribute("roles", authorities);
         // todo sout only for testing can be removed when we are done
-        authorities.forEach(System.out::println);
+        authorities.forEach(s -> System.out.println("Roles: " + s));
     }
 }

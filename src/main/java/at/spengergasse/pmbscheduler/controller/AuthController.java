@@ -19,11 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/auth")
@@ -62,7 +57,7 @@ public class AuthController {
             return "redirect:/";
         } catch (Exception e) {
             model.addAttribute("error", "Invalid email or password");
-            return "login.html";
+            return "/login";
         }
     }
 
@@ -75,8 +70,6 @@ public class AuthController {
             return "register.html";
         }
 
-        System.out.println("Creating new person entity");
-
         Person person = new Person();
         person.setEmail(newPerson.getEmail());
         person.setPassword(passwordEncoder.encode(newPerson.getPassword()));
@@ -86,6 +79,6 @@ public class AuthController {
         roleRepository.findByName("USER").ifPresent(role -> person.getRoles().add(role));
         personRepository.save(person);
 
-        return "redirect:/login.html";
+        return "redirect:../login";
     }
 }

@@ -38,6 +38,8 @@
             <input type="password" id="password" name="password" required>
 
             <button type="submit">Login</button>
+
+            <div id="error" th:if="${error}" th:text="'Error: ' + ${error}"></div>
         </form>
         <div class="register-link">
             <p>Not registered yet?</p>
