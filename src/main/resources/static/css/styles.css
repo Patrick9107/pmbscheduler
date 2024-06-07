@@ -82,9 +82,9 @@ main {
 }
 
 .image-section {
-    background-color: #ddd;
+    /*background-color: #ddd;*/
     width: 80%;
-    height: 25rem; /* 400px */
+    height: 30rem; /* 480px */
     display: flex;
     align-items: center;
     justify-content: center;
