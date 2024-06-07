@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class staticViewController {
+public class StaticViewController {
 
     @GetMapping("/imprint")
     public String showImprint(){
@@ -24,5 +24,14 @@ public class staticViewController {
     @GetMapping("/")
     public String showHome(){
         return "index.html";
+    }
+
+    @GetMapping("/register")
+    public String showRegister() {
+        return "register.html";
+    }
+    @GetMapping("/login")
+    public String showLogin() {
+        return "login.html";
     }
 }

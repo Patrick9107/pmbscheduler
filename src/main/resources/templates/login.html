@@ -24,10 +24,10 @@
 </header>
 <main>
     <div class="form-container">
-        <form th:action="@{/login}" method="POST">
+        <form th:action="@{/auth/login}" method="POST">
             <h2>Login</h2>
             <label for="first-name">First Name</label>
-            <input type="text" id="first-name" name="first-name" required>
+            <input type="text" id="first-name" name="firstName" required>
 
             <label for="last-name">Last Name</label>
             <input type="text" id="last-name" name="last-name" required>
