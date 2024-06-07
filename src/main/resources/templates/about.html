@@ -14,7 +14,7 @@
     </div>
     <nav>
         <ul>
-            <li><a th:href="@{/create-event}" class="create-event">Create Event</a></li>
+            <li th:if="${roles.contains('ADMIN')}"><a th:href="@{/create-event}" class="create-event">Create Event</a></li>
             <li><a th:href="@{/}">Home</a></li>
             <li><a th:href="@{/about}">About</a></li>
             <li><a th:href="@{/events}">Events</a></li>

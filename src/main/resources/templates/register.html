@@ -14,7 +14,7 @@
     </div>
     <nav>
         <ul>
-            <li><a th:href="@{/create-event}" class="create-event">Create Event</a></li>
+            <li th:if="${roles.contains('ADMIN')}"> <a th:href="@{/create-event}" class="create-event">Create Event</a></li>
             <li><a th:href="@{/}" class="home">Home</a></li>
             <li><a th:href="@{/about}" class="about">About</a></li>
             <li><a th:href="@{/events}" class="events">Events</a></li>
@@ -24,7 +24,7 @@
 </header>
 <main>
     <div class="form-container">
-        <form th:action="@{/auth/register}" method="POST">
+        <form th:action="@{/auth/register}" method="POST" th:object="${person}">
             <h2>Register</h2>
             <label for="first-name">First Name</label>
             <input type="text" id="first-name" name="firstName" required>
@@ -39,6 +39,8 @@
             <input type="password" id="password" name="password" required>
 
             <button type="submit">Register</button>
+
+            <div th:if="${error}" th:text="'Error: ' + ${error}"></div>
         </form>
     </div>
 </main>

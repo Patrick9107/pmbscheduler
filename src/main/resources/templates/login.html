@@ -14,7 +14,7 @@
     </div>
     <nav>
         <ul>
-            <li><a th:href="@{/create-event}" class="create-event">Create Event</a></li>
+            <li th:if="${roles.contains('ADMIN')}"> <a th:href="@{/create-event}" class="create-event">Create Event</a></li>
             <li><a th:href="@{/}" class="home">Home</a></li>
             <li><a th:href="@{/about}" class="about">About</a></li>
             <li><a th:href="@{/events}" class="events">Events</a></li>
@@ -24,21 +24,20 @@
 </header>
 <main>
     <div class="form-container">
-        <form th:action="@{/auth/login}" method="POST">
+        <form action="/auth/login" method="POST" th:object="${person}">
             <h2>Login</h2>
-            <label for="first-name">First Name</label>
-            <input type="text" id="first-name" name="firstName" required>
+<!--            <label for="first-name">First Name</label>-->
+<!--            <input type="text" id="first-name" name="firstName" required>-->
 
-            <label for="last-name">Last Name</label>
-            <input type="text" id="last-name" name="last-name" required>
-
+<!--            <label for="last-name">Last Name</label>-->
+<!--            <input type="text" id="last-name" name="lastName" required>-->
             <label for="email">Email Address</label>
             <input type="email" id="email" name="email" required>
 
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
 
-            <button type="submit">Submit</button>
+            <button type="submit">Login</button>
         </form>
         <div class="register-link">
             <p>Not registered yet?</p>

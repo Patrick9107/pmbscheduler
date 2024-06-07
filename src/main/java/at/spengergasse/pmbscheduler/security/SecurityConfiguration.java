@@ -49,17 +49,12 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authz -> authz.anyRequest().permitAll())
+                .authorizeHttpRequests(authz -> authz
+                                .requestMatchers(new AntPathRequestMatcher("/create-event")).hasAuthority("ADMIN")
+                                .anyRequest().permitAll()
+                )
                 .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);
-//                .authorizeHttpRequests(authz -> authz.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-//                .httpBasic(Customizer.withDefaults())
-////                .authorizeHttpRequests(request -> request.requestMatchers(new AntPathRequestMatcher("/create-event")) // create-event for everyone
-////                        .permitAll())
-//                .authorizeHttpRequests(request -> request.requestMatchers(new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/register"))
-//                        .anonymous());
-
         return http.build();
     }
 
