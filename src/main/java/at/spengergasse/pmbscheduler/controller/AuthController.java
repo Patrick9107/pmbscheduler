@@ -14,10 +14,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,15 +43,15 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping(value = "login", consumes = {"application/json", "application/x-www-form-urlencoded"})
+    @PostMapping("login")
     public ResponseEntity<String> login(@ModelAttribute LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new ResponseEntity<>("User signed in successfully", HttpStatus.OK);
     }
 
-    @PostMapping(value = "register", consumes = {"application/json", "application/x-www-form-urlencoded"})
-    public ResponseEntity<String> register(@ModelAttribute RegisterDto registerDto) {
+    @PostMapping("register")
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
         if (personRepository.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Email is already in use!", HttpStatus.BAD_REQUEST);
         }
@@ -60,8 +62,7 @@ public class AuthController {
         person.setLastName(registerDto.getLastName());
 
         // hier implementieren ob ein spezifischer user zb admin sein soll
-        Role role = roleRepository.findByName("USER").get();
-        person.setRoles(Collections.singletonList(role));
+        roleRepository.findByName("USER").ifPresent(role -> person.setRoles(Collections.singletonList(role)));
 
         personRepository.save(person);
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
