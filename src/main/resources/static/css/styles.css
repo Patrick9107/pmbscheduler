@@ -348,7 +348,7 @@ ul {
 }
 
 
-.error-message {
+#error {
     color: red;
     font-weight: bold;
     margin-top: 1.25rem; /* 20px */

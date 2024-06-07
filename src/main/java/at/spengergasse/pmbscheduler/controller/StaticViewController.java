@@ -58,6 +58,7 @@ public class StaticViewController {
     private void authorities(Model model) {
         List<String> authorities = authoritiesService.getAutorities();
         model.addAttribute("roles", authorities);
+        // todo sout only for testing can be removed when we are done
         authorities.forEach(System.out::println);
     }
 }

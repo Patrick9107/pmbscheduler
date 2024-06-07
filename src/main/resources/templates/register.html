@@ -40,7 +40,7 @@
 
             <button type="submit">Register</button>
 
-            <div th:if="${error}" th:text="'Error: ' + ${error}"></div>
+            <div id="error" th:if="${error}" th:text="'Error: ' + ${error}"></div>
         </form>
     </div>
 </main>
