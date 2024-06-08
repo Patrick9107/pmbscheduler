@@ -4,7 +4,6 @@ import at.spengergasse.pmbscheduler.model.Person;
 import at.spengergasse.pmbscheduler.model.Role;
 import at.spengergasse.pmbscheduler.repository.PersonRepository;
 import at.spengergasse.pmbscheduler.repository.RoleRepository;
-import at.spengergasse.pmbscheduler.service.AuthoritiesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/auth")
@@ -34,20 +35,17 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     private PasswordEncoder passwordEncoder;
 
-    private AuthoritiesService authoritiesService;
 
     public AuthController(PersonRepository personRepository,
                           RoleRepository roleRepository,
                           AuthenticationManager authenticationManager,
-                          PasswordEncoder passwordEncoder,
-                          AuthoritiesService authoritiesService
+                          PasswordEncoder passwordEncoder
     )
     {
         this.personRepository = personRepository;
         this.roleRepository = roleRepository;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
-        this.authoritiesService = authoritiesService;
     }
 
 //    @PostMapping("login")
@@ -66,17 +64,19 @@ public class AuthController {
     @PostMapping("login")
     public String login(@ModelAttribute Person person, Model model) {
         try {
+            SecurityContextHolder.getContext().getAuthentication().getAuthorities().forEach(grantedAuthority -> System.out.println("Security Context authorities before Authentication:" + grantedAuthority));
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(person.getEmail(), person.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().getAuthentication().getAuthorities().forEach(grantedAuthority -> System.out.println("Security Context authorities after Authentication:" + grantedAuthority));
 
             // Log to check authentication
-            System.out.println("Authentication successful: " + authentication.isAuthenticated());
-            System.out.println("Authorities: " + authentication.getAuthorities());
+            System.out.println("(Login) Authentication successful: " + authentication.isAuthenticated());
+            System.out.println("(Login) Authentication Authorities: " + authentication.getAuthorities());
 
             // Now that authentication is set, fetch the authorities
-            List<String> roles = authoritiesService.getAutorities();
-            System.out.println("Retrieved roles: " + roles);
-            model.addAttribute("roles", authoritiesService.getAutorities());
+            List<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+            System.out.println("(Login) Retrieved roles: " + roles);
+            model.addAttribute("roles", roles);
             return "redirect:/";
         } catch (Exception e) {
             System.out.println("Authentication failed " + e);
@@ -88,7 +88,6 @@ public class AuthController {
     @Transactional
     @PostMapping("register")
     public String register(@ModelAttribute Person newPerson, Model model) {
-        model.addAttribute("roles", authoritiesService.getAutorities());
         if (personRepository.existsByEmail(newPerson.getEmail())) {
             model.addAttribute("error", "Email is already in use!");
             return "register.html";
@@ -100,9 +99,10 @@ public class AuthController {
         person.setFirstName(newPerson.getFirstName());
         person.setLastName(newPerson.getLastName());
         personRepository.save(person);
-        roleRepository.findByName("USER").ifPresent(role -> person.getRoles().add(role));
+        roleRepository.findByName("ROLE_USER").ifPresent(role -> person.getRoles().add(role));
         personRepository.save(person);
 
+        model.addAttribute("roles", SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         return "redirect:../login";
     }
 }

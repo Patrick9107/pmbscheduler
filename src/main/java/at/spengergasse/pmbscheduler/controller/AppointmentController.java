@@ -2,9 +2,10 @@ package at.spengergasse.pmbscheduler.controller;
 
 import at.spengergasse.pmbscheduler.model.Appointment;
 import at.spengergasse.pmbscheduler.service.AppointmentService;
-import at.spengergasse.pmbscheduler.service.AuthoritiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +17,16 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class AppointmentController {
 
     private AppointmentService appointmentService;
 
-    private AuthoritiesService authoritiesService;
-
     @Autowired
-    public AppointmentController(AppointmentService appointmentService, AuthoritiesService authoritiesService) {
+    public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
-        this.authoritiesService = authoritiesService;
     }
 
 
@@ -42,7 +41,7 @@ public class AppointmentController {
 // FÜR FAKE DATEN
     @GetMapping("/events")
     public String returnAppointmentData(Model model){
-        model.addAttribute("roles", authoritiesService.getAutorities());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()));
         //appointmentService.generateFakeAppointments(10);
         //List <Appointment> appointments = appointmentService.getSortedAppointmentsAsc();
         List<Appointment> appointments = appointmentService.getSortedAppointmentsAscSortByDateAndTime();
@@ -52,7 +51,6 @@ public class AppointmentController {
 
     @GetMapping("/create-event")
     public String viewCreateEvent(Model model){
-        model.addAttribute("roles", authoritiesService.getAutorities());
         Optional<Appointment> appointment = appointmentService.getNextAppointment();
         model.addAttribute("appointment", appointment.orElse(null));
         return "create-event.html";
