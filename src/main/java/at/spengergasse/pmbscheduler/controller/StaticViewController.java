@@ -1,14 +1,10 @@
 package at.spengergasse.pmbscheduler.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class StaticViewController {
@@ -42,6 +38,11 @@ public class StaticViewController {
         return "login.html";
     }
 
+    @GetMapping("/user/profile")
+    public String showProfile(Model model) {
+        model.addAttribute("person", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return "user/profile.html";
+    }
 //    private void authorities(Model model) {
 //        List<String> authorities = authoritiesService.getAutorities();
 //        model.addAttribute("roles", authorities);
