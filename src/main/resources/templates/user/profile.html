@@ -1,10 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | PMB-Scheduler</title>
+    <link rel="icon" type="image/svg+xml" th:href="@{/img/favicon.svg}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<!-- Hier kommt man rein wenn man auf sein profil geht -->
+<header>
+    <div class="logo">
+        <img th:src="@{/img/logo.png}" alt="PMB-Scheduler Logo">
+    </div>
+    <nav>
+        <ul>
+            <li th:if="${roles.contains('ADMIN')}"> <a th:href="@{/create-event}" class="create-event">Create Event</a></li>
+            <li><a th:href="@{/}" class="home">Home</a></li>
+            <li><a th:href="@{/about}" class="about">About</a></li>
+            <li><a th:href="@{/events}" class="events">Events</a></li>
+            <li><a th:href="@{/login}" class="login">Login</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="profile-container">
+        <h2>Profile</h2>
+        <form th:action="@{/auth/update-profile}" method="POST" th:object="${person}">
+            <div class="profile-info">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" name="firstName" th:value="${person.firstName}" required>
+            </div>
+
+            <div class="profile-info">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="lastName" th:value="${person.lastName}" required>
+            </div>
+
+            <div class="profile-info">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" th:value="${person.email}" required>
+            </div>
+
+            <div class="profile-info">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" name="phone" th:value="${person.phone}">
+            </div>
+
+            <div class="profile-info">
+                <label for="address">Address</label>
+                <textarea id="address" name="address" rows="4" th:text="${person.address}"></textarea>
+            </div>
+
+            <button type="submit">Update Profile</button>
+
+            <div th:if="${error}" th:text="'Error: ' + ${error}" class="error-message"></div>
+        </form>
+    </div>
+</main>
+<footer>
+    <div class="footer-link">
+        <a th:href="@{/imprint}">Imprint</a>
+        <a th:href="@{/terms-of-use}">Terms of Use</a>
+    </div>
+</footer>
 </body>
 </html>
