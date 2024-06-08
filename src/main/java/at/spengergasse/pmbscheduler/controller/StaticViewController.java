@@ -1,12 +1,15 @@
 package at.spengergasse.pmbscheduler.controller;
 
 import at.spengergasse.pmbscheduler.service.AuthoritiesService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class StaticViewController {
@@ -37,7 +40,8 @@ public class StaticViewController {
 
     @GetMapping("/")
     public String showHome(Model model) {
-        authorities(model);
+        SecurityContextHolder.getContext().getAuthentication().getAuthorities().forEach(System.out::println);
+        model.addAttribute("roles", authoritiesService.getAutorities());
         return "index.html";
     }
 

@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
@@ -48,16 +50,38 @@ public class AuthController {
         this.authoritiesService = authoritiesService;
     }
 
+//    @PostMapping("login")
+//    public String login(@ModelAttribute Person person, Model model) {
+//        try {
+//            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(person.getEmail(), person.getPassword()));
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//            model.addAttribute("roles", authoritiesService.getAutorities());
+//            return "redirect:/";
+//        } catch (Exception e) {
+//            model.addAttribute("error", "Invalid email or password");
+//            return "/login";
+//        }
+//    }
+
     @PostMapping("login")
     public String login(@ModelAttribute Person person, Model model) {
-        model.addAttribute("roles", authoritiesService.getAutorities());
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(person.getEmail(), person.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Log to check authentication
+            System.out.println("Authentication successful: " + authentication.isAuthenticated());
+            System.out.println("Authorities: " + authentication.getAuthorities());
+
+            // Now that authentication is set, fetch the authorities
+            List<String> roles = authoritiesService.getAutorities();
+            System.out.println("Retrieved roles: " + roles);
+            model.addAttribute("roles", authoritiesService.getAutorities());
             return "redirect:/";
         } catch (Exception e) {
+            System.out.println("Authentication failed " + e);
             model.addAttribute("error", "Invalid email or password");
-            return "/login";
+            return "login"; // Assuming you have a login.html template
         }
     }
 
