@@ -4,6 +4,8 @@ import at.spengergasse.pmbscheduler.model.Person;
 import at.spengergasse.pmbscheduler.model.Role;
 import at.spengergasse.pmbscheduler.repository.PersonRepository;
 import at.spengergasse.pmbscheduler.repository.RoleRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -62,26 +65,23 @@ public class AuthController {
 //    }
 
     @PostMapping("login")
-    public String login(@ModelAttribute Person person, Model model) {
+    public String login(HttpServletRequest request, @ModelAttribute Person person, Model model) {
         try {
-            SecurityContextHolder.getContext().getAuthentication().getAuthorities().forEach(grantedAuthority -> System.out.println("Security Context authorities before Authentication:" + grantedAuthority));
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(person.getEmail(), person.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            SecurityContextHolder.getContext().getAuthentication().getAuthorities().forEach(grantedAuthority -> System.out.println("Security Context authorities after Authentication:" + grantedAuthority));
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
+            securityContext.getAuthentication().getAuthorities().forEach(grantedAuthority -> System.out.println("Security Context authorities after Authentication:" + grantedAuthority));
 
-            // Log to check authentication
-            System.out.println("(Login) Authentication successful: " + authentication.isAuthenticated());
-            System.out.println("(Login) Authentication Authorities: " + authentication.getAuthorities());
+            // Http session to update security context
+            HttpSession session = request.getSession(true);
+            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
-            // Now that authentication is set, fetch the authorities
-            List<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
-            System.out.println("(Login) Retrieved roles: " + roles);
-            model.addAttribute("roles", roles);
+            model.addAttribute("roles", getAuthorities());
             return "redirect:/";
         } catch (Exception e) {
             System.out.println("Authentication failed " + e);
             model.addAttribute("error", "Invalid email or password");
-            return "login"; // Assuming you have a login.html template
+            return "login";
         }
     }
 
@@ -102,7 +102,11 @@ public class AuthController {
         roleRepository.findByName("ROLE_USER").ifPresent(role -> person.getRoles().add(role));
         personRepository.save(person);
 
-        model.addAttribute("roles", SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        model.addAttribute("roles", getAuthorities());
         return "redirect:../login";
+    }
+
+    private List<String> getAuthorities() {
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
     }
 }

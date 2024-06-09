@@ -41,7 +41,7 @@ public class AppointmentController {
 // FÜR FAKE DATEN
     @GetMapping("/events")
     public String returnAppointmentData(Model model){
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()));
+        model.addAttribute("roles", getAuthorities());
         //appointmentService.generateFakeAppointments(10);
         //List <Appointment> appointments = appointmentService.getSortedAppointmentsAsc();
         List<Appointment> appointments = appointmentService.getSortedAppointmentsAscSortByDateAndTime();
@@ -51,6 +51,7 @@ public class AppointmentController {
 
     @GetMapping("/create-event")
     public String viewCreateEvent(Model model){
+        model.addAttribute("roles", getAuthorities());
         Optional<Appointment> appointment = appointmentService.getNextAppointment();
         model.addAttribute("appointment", appointment.orElse(null));
         return "create-event.html";
@@ -66,5 +67,11 @@ public class AppointmentController {
 
         appointmentService.createAppointment(description, appointmentDate, time, address);
         return "redirect:/events";
+    }
+
+    private List<String> getAuthorities() {
+        List<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        System.out.println(roles);
+        return roles;
     }
 }
