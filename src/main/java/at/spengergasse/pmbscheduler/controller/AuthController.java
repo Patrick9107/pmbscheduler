@@ -88,7 +88,7 @@ public class AuthController {
 
     @Transactional
     @PostMapping("register")
-    public String register(@ModelAttribute Person newPerson, Model model) {
+    public String register(HttpServletRequest request, @ModelAttribute Person newPerson, Model model) {
         if (personService.existsByEmail(newPerson.getEmail())) {
             model.addAttribute("roles", authService.getAuthorities());
             model.addAttribute("error", "Email is already in use!");
@@ -103,6 +103,7 @@ public class AuthController {
         person.setBirthDate(newPerson.getBirthDate());
         roleRepository.findByName("ROLE_USER").ifPresent(role -> person.getRoles().add(role));
         personService.save(person);
+        // TODO autologin
 
         model.addAttribute("roles", authService.getAuthorities());
         return "redirect:../login";
