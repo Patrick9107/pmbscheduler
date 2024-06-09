@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonService {
@@ -24,6 +25,9 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+    public Optional<Person> findByEmail(String email){
+        return personRepository.findByEmail(email);
+    }
     public List<Person> findByFirstNameAndLastName(String firstName, String lastName ){
         return personRepository.findByFirstNameAndLastName(firstName, lastName).stream().toList();
     }
@@ -38,5 +42,9 @@ public class PersonService {
             personRepository.save(persons.get(i));
         }
         return persons;
+    }
+
+    public void save(Person person){
+        personRepository.save(person);
     }
 }

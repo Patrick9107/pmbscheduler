@@ -3,6 +3,7 @@ package at.spengergasse.pmbscheduler.service;
 import at.spengergasse.pmbscheduler.factory.AppointmentFactory;
 import at.spengergasse.pmbscheduler.model.Appointment;
 import at.spengergasse.pmbscheduler.repository.AppointmentRepository;
+import at.spengergasse.pmbscheduler.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,13 @@ import java.util.Optional;
 public class AppointmentService {
     private AppointmentRepository appointmentRepository;
     private AppointmentFactory appointmentFactory;
+    private PersonRepository personRepository;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, AppointmentFactory appointmentFactory) {
+    public AppointmentService(AppointmentRepository appointmentRepository, AppointmentFactory appointmentFactory, PersonRepository personRepository) {
         this.appointmentRepository = appointmentRepository;
-        this.appointmentFactory = appointmentFactory;   
+        this.appointmentFactory = appointmentFactory;
+        this.personRepository =personRepository;
 
     }
 
@@ -54,6 +57,10 @@ public class AppointmentService {
         return appointmentRepository.findNextAppointment();
     }
 
+    public Optional<Appointment> getById(Long Id){
+        return appointmentRepository.findById(Id);
+    }
+
     public Appointment createAppointment(String description, LocalDate appointmentDate, LocalTime time, String address){
         Appointment appointment = Appointment.builder()
                 .description(description)
@@ -64,7 +71,8 @@ public class AppointmentService {
 
         return appointmentRepository.save(appointment);
     }
-
-
+    public Long getPersonCountForAppointment(Long appointmentId) {
+        return personRepository.countPersonsByAppointmentId(appointmentId);
+    }
 }
 

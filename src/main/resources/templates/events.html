@@ -20,16 +20,24 @@
                 <th>Time</th>
                 <th>Location</th>
                 <th>Description</th>
-                <th>Action</th>
+                <th th:if="${roles.contains('ROLE_USER')}">Action</th>
+                <th>Slots</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="appointment : ${appointments}">
+            <tr th:each="appointment,index : ${appointments}">
                 <td th:text="${appointment.appointmentDate}">Date</td>
                 <td th:text="${appointment.time}">Time</td>
                 <td th:text="${appointment.address}">Location</td>
                 <td th:text="${appointment.description}">Description</td>
-                <td><button class="apply-button">Apply</button></td>
+                <form th:action="@{/apply-for-event}" method="post">
+                    <td th:if="${roles.contains('ROLE_USER')}">
+                        <button th:if="${!usersAppointments.contains(appointment.id)}" class="apply-button">Apply</button>
+                        <div th:if="${usersAppointments.contains(appointment.id)}"> Applied</div>
+                    </td>
+                    <input type="hidden" name="id" th:value="${appointment.id}">
+                </form>
+                <td th:text="${personSumForAppointment[__${index.index}__]} + '/' + ${appointment.availableSpots}"></td>
             </tr>
             </tbody>
         </table>

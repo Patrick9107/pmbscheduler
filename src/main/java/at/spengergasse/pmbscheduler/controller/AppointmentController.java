@@ -1,7 +1,11 @@
 package at.spengergasse.pmbscheduler.controller;
 
 import at.spengergasse.pmbscheduler.model.Appointment;
+import at.spengergasse.pmbscheduler.model.Person;
+import at.spengergasse.pmbscheduler.repository.PersonRepository;
 import at.spengergasse.pmbscheduler.service.AppointmentService;
+import at.spengergasse.pmbscheduler.service.PersonService;
+import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,8 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,10 +29,12 @@ import java.util.stream.Collectors;
 public class AppointmentController {
 
     private AppointmentService appointmentService;
+    private PersonService personService;
 
     @Autowired
-    public AppointmentController(AppointmentService appointmentService) {
+    public AppointmentController(AppointmentService appointmentService, PersonService personService) {
         this.appointmentService = appointmentService;
+        this.personService = personService;
     }
 
 
@@ -42,10 +50,24 @@ public class AppointmentController {
     @GetMapping("/events")
     public String returnAppointmentData(Model model){
         model.addAttribute("roles", getAuthorities());
+        System.out.println(getAuthorities());
         //appointmentService.generateFakeAppointments(10);
         //List <Appointment> appointments = appointmentService.getSortedAppointmentsAsc();
+        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Long> usersAppointments = new ArrayList<>();
+
+        personService.findByEmail(loggedInUserEmail).ifPresent(person ->{
+            person.getAppointments().forEach(appointment ->  usersAppointments.add(appointment.getId()));
+        });
+        model.addAttribute("usersAppointments",usersAppointments);
+
         List<Appointment> appointments = appointmentService.getSortedAppointmentsAscSortByDateAndTime();
         model.addAttribute("appointments", appointments);
+
+
+        List<Long> personSumForAppointment = new ArrayList<>();
+        appointments.forEach(appointment -> personSumForAppointment.add(appointmentService.getPersonCountForAppointment(appointment.getId())));
+        model.addAttribute("personSumForAppointment", personSumForAppointment);
         return "events.html";
     }
 
@@ -74,4 +96,19 @@ public class AppointmentController {
         System.out.println(roles);
         return roles;
     }
+
+   @PostMapping("/apply-for-event")
+    public String apply(@RequestParam Long id){
+        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+       System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+       System.out.println(loggedInUserEmail);
+       appointmentService.getById(id).ifPresent(appointment -> personService.findByEmail(loggedInUserEmail).ifPresent( person -> {
+           if(!person.getAppointments().contains(appointment)){
+               person.getAppointments().add(appointment);
+               personService.save(person);
+           }
+       }));
+
+        return "redirect:/events";
+   }
 }

@@ -19,6 +19,7 @@ public class AppointmentFactory {
                         .atZone(ZoneId.systemDefault()).toLocalDate())
                 .time(LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59)))
                 .address(faker.address().fullAddress())
+                .availableSpots(faker.number().numberBetween(10, 40))
                 .build();
     }
 
