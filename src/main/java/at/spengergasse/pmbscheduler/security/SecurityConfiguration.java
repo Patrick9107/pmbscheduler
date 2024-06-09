@@ -14,6 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
@@ -43,8 +46,10 @@ public class SecurityConfiguration {
                         .requestMatchers(new AntPathRequestMatcher("/user/**")).fullyAuthenticated()
                                 .anyRequest().permitAll()
                 )
-                .httpBasic(Customizer.withDefaults())
-                .logout(logoutConfig -> logoutConfig.logoutUrl("/logout").permitAll())
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .logout(logoutConfig -> {
+                    logoutConfig.logoutUrl("/logout").logoutSuccessUrl("/").permitAll();
+                })
                 .formLogin(login -> login.loginPage("/login").permitAll());
 //                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
