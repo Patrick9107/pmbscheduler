@@ -29,16 +29,6 @@
                 <input type="email" id="email" name="email" th:value="${person.email}" required>
             </div>
 
-            <div class="profile-info">
-                <label for="phone">Phone Number</label>
-                <input type="text" id="phone" name="phone" th:value="${person.phone}">
-            </div>
-
-            <div class="profile-info">
-                <label for="address">Address</label>
-                <textarea id="address" name="address" rows="4" th:text="${person.address}"></textarea>
-            </div>
-
             <button type="submit">Update Profile</button>
 
             <div th:if="${error}" th:text="'Error: ' + ${error}" class="error-message"></div>
