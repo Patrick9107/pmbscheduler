@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -38,11 +39,11 @@ public class SecurityConfiguration {
                                         new AntPathRequestMatcher("/register"))
                                 .anonymous()
                         // probieren ob funktioniert wenn wir profile haben
-                        .requestMatchers(new AntPathRequestMatcher("/user/**")).not().anonymous()
+                        .requestMatchers(new AntPathRequestMatcher("/user/**")).hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                 .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
-                .logout(logoutConfig -> logoutConfig.logoutUrl("/profile/logout"))
+                .logout(logoutConfig -> logoutConfig.logoutUrl("/logout").permitAll())
                 .formLogin(login -> login.loginPage("/login").permitAll());
 //                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

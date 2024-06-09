@@ -54,12 +54,8 @@ public class AppointmentController {
         //appointmentService.generateFakeAppointments(10);
         //List <Appointment> appointments = appointmentService.getSortedAppointmentsAsc();
         String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<Long> usersAppointments = new ArrayList<>();
 
-        personService.findByEmail(loggedInUserEmail).ifPresent(person ->{
-            person.getAppointments().forEach(appointment ->  usersAppointments.add(appointment.getId()));
-        });
-        model.addAttribute("usersAppointments",usersAppointments);
+        model.addAttribute("usersAppointments", personService.getCurrentUserAppointments(loggedInUserEmail));
 
         List<Appointment> appointments = appointmentService.getSortedAppointmentsAscSortByDateAndTime();
         model.addAttribute("appointments", appointments);

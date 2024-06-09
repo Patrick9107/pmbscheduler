@@ -1,6 +1,7 @@
 package at.spengergasse.pmbscheduler.service;
 
 import at.spengergasse.pmbscheduler.factory.PersonFactory;
+import at.spengergasse.pmbscheduler.model.Appointment;
 import at.spengergasse.pmbscheduler.model.Person;
 import at.spengergasse.pmbscheduler.repository.PersonRepository;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,14 @@ public class PersonService {
 
     public Optional<Person> findByEmail(String email){
         return personRepository.findByEmail(email);
+    }
+
+    public List<Long> getCurrentUserAppointments(String userEmail) {
+        List<Long> appointments = new ArrayList<>();
+        findByEmail(userEmail).ifPresent(person -> {
+            person.getAppointments().forEach(appointment ->  appointments.add(appointment.getId()));
+        });
+        return appointments;
     }
     public List<Person> findByFirstNameAndLastName(String firstName, String lastName ){
         return personRepository.findByFirstNameAndLastName(firstName, lastName).stream().toList();
