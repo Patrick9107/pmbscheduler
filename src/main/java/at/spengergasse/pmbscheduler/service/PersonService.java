@@ -32,10 +32,6 @@ public class PersonService {
         return personRepository.findByFirstNameAndLastName(firstName, lastName).stream().toList();
     }
 
-    public Optional<Person> findByEmail(String email) {
-        return personRepository.findByEmail(email);
-    }
-
 //    public List<Person> findByBirthDate(LocalDate birthDate){
 //        return personRepository.findByBirthDate(birthDate).stream().toList();
 //    }
