@@ -6,6 +6,7 @@ import at.spengergasse.pmbscheduler.repository.PersonRepository;
 import at.spengergasse.pmbscheduler.service.AppointmentService;
 import at.spengergasse.pmbscheduler.service.PersonService;
 import jakarta.persistence.Id;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
@@ -96,13 +97,30 @@ public class AppointmentController {
    @PostMapping("/apply-for-event")
     public String apply(@RequestParam Long id){
         String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-       System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-       System.out.println(loggedInUserEmail);
+
+       List<Appointment> appointments = appointmentService.getSortedAppointmentsAscSortByDateAndTime();
+
+
+       List<Long> personSumForAppointment = new ArrayList<>();
+       appointments.forEach(appointment -> personSumForAppointment.add(appointmentService.getPersonCountForAppointment(appointment.getId())));
+
+       //wenn ein appointment voll ist soll sich der user nicht mehr anmelden können.
+
+
        appointmentService.getById(id).ifPresent(appointment -> personService.findByEmail(loggedInUserEmail).ifPresent( person -> {
-           if(!person.getAppointments().contains(appointment)){
+           Integer maxSlots =  0;
+
+           if (appointmentService.getById(id).isPresent()){
+               maxSlots = appointmentService.getById(id).get().getAvailableSpots();
+           }
+
+           Long personCountForAppointment = appointmentService.getPersonCountForAppointment(id);
+           // +1 für den User der sich jetzt anmelden möchte
+           if(!person.getAppointments().contains(appointment) && personCountForAppointment + 1 <= maxSlots ){
                person.getAppointments().add(appointment);
                personService.save(person);
            }
+
        }));
 
         return "redirect:/events";

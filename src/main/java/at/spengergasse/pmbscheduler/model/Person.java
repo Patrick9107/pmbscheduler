@@ -2,6 +2,7 @@ package at.spengergasse.pmbscheduler.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,10 +26,15 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
+    @NotNull
     private LocalDate birthDate;
+    @NotNull
     private String email;
+    @NotNull
     private String password;
     @Value("${props.boolean.isFPL:#{false}}")
     private Boolean isVerfied = false;
