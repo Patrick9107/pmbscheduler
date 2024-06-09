@@ -31,6 +31,10 @@
 
             <button type="submit">Update Profile</button>
 
+            <br>
+            <br>
+            <a th:href="@{/logout}" class="logout-link">Logout</a>
+
             <div th:if="${error}" th:text="'Error: ' + ${error}" class="error-message"></div>
         </form>
     </div>
