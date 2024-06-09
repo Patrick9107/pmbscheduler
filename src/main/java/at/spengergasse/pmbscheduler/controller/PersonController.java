@@ -3,6 +3,8 @@ package at.spengergasse.pmbscheduler.controller;
 import at.spengergasse.pmbscheduler.model.Person;
 import at.spengergasse.pmbscheduler.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,15 @@ public class PersonController {
     @Autowired
     public PersonController(PersonService service) {
         this.personService = service;
+    }
+
+    @GetMapping("/user/profile")
+    public String showProfile(Model model) {
+        model.addAttribute("roles", SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
+        personService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).ifPresentOrElse(
+                person -> model.addAttribute("person", person),
+                () -> model.addAttribute("person", null));
+        return "user/profile.html";
     }
 
 

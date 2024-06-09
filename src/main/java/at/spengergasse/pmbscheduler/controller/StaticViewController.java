@@ -47,11 +47,6 @@ public class StaticViewController {
         return "login.html";
     }
 
-    @GetMapping("/user/profile")
-    public String showProfile(Model model) {
-        model.addAttribute("roles", getAuthorities());
-        return "user/profile.html";
-    }
     private List<String> getAuthorities() {
         List<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         System.out.println(roles);

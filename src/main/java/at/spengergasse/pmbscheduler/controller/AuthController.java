@@ -96,7 +96,6 @@ public class AuthController {
         person.setFirstName(newPerson.getFirstName());
         person.setLastName(newPerson.getLastName());
         person.setBirthDate(newPerson.getBirthDate());
-        personRepository.save(person);
         roleRepository.findByName("ROLE_USER").ifPresent(role -> person.getRoles().add(role));
         personRepository.save(person);
 

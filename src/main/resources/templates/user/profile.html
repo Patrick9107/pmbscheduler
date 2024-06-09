@@ -11,7 +11,7 @@
 <header th:replace="~{fragments/header :: header}">
 </header>
 <main>
-    <div class="profile-container">
+    <div th:if="${person != null}" class="profile-container">
         <h2>Profile</h2>
         <form th:action="@{/auth/update-profile}" method="POST" th:object="${person}">
             <div class="profile-info">
