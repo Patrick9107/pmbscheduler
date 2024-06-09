@@ -88,7 +88,7 @@ public class AuthController {
 
     @Transactional
     @PostMapping("register")
-    public String register(HttpServletRequest request, @ModelAttribute Person newPerson, Model model) {
+    public String register(@ModelAttribute Person newPerson, Model model) {
         if (personService.existsByEmail(newPerson.getEmail())) {
             model.addAttribute("roles", authService.getAuthorities());
             model.addAttribute("error", "Email is already in use!");
