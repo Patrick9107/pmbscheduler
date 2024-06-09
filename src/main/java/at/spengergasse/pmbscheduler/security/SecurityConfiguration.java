@@ -33,9 +33,16 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                                 .requestMatchers(new AntPathRequestMatcher("/create-event")).hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/auth/**"),
+                                        new AntPathRequestMatcher("/login"),
+                                        new AntPathRequestMatcher("/register"))
+                                .anonymous()
+                        // probieren ob funktioniert wenn wir profile haben
+//                        .requestMatchers(new AntPathRequestMatcher("/profile/**")).not().anonymous()
                                 .anyRequest().permitAll()
                 )
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults())
+                .logout(logoutConfig -> logoutConfig.logoutUrl("/profile/logout"));
 //                .formLogin(login -> login.loginPage("/login").permitAll())
 //                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

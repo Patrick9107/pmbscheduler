@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<header th:fragment="header">
+    <div class="logo">
+        <img th:src="@{/img/logo.png}" alt="PMB-Scheduler Logo">
+    </div>
+    <nav>
+        <ul>
+            <li th:if="${roles.contains('ROLE_ADMIN')}"><a th:href="@{/create-event}" class="create-event">Create Event</a></li>
+            <li><a th:href="@{/}" class="home">Home</a></li>
+            <li><a th:href="@{/about}" class="about">About</a></li>
+            <li><a th:href="@{/events}" class="events">Events</a></li>
+             <li th:if="${!roles.contains('ROLE_ANONYMOUS')}"><a th:href="@{/My Profile}" class="login">My Profile</a></li>
+            <li th:if="${roles.contains('ROLE_ANONYMOUS')}"><a th:href="@{/login}" class="login">Login</a></li>
+        </ul>
+    </nav>
+</header>
+</body>
+</html>

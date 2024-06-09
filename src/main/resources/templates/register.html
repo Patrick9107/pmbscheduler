@@ -8,20 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<header>
-    <div class="logo">
-        <img th:src="@{/img/logo.png}" alt="PMB-Scheduler Logo">
-    </div>
-    <nav>
-        <ul>
-            <li th:if="${roles.contains('ROLE_ADMIN')}"> <a th:href="@{/create-event}" class="create-event">Create Event</a></li>
-            <li><a th:href="@{/}" class="home">Home</a></li>
-            <li><a th:href="@{/about}" class="about">About</a></li>
-            <li><a th:href="@{/events}" class="events">Events</a></li>
-            <!-- <li><a th:href="@{/My Profile}" class="login">My Profile</a></li> -->
-            <li><a th:href="@{/login}" class="login">Login</a></li>
-        </ul>
-    </nav>
+<header th:replace="~{fragments/header :: header}">
 </header>
 <main>
     <div class="form-container">
@@ -45,11 +32,7 @@
         </form>
     </div>
 </main>
-<footer>
-    <div class="footer-link">
-        <a th:href="@{/imprint}">Imprint</a>
-        <a th:href="@{/terms-of-use}">Terms of Use</a>
-    </div>
+<footer th:replace="~{fragments/footer :: footer}">
 </footer>
 </body>
 </html>
