@@ -18,12 +18,15 @@
 
                 <label for="date">Date</label>
                 <input type="date" id="date" name="appointmentDate" required>
-                <!-- style time field -->
+
                 <label for="time">Time</label>
                 <input type="time" id="time" name="time" required>
 
                 <label for="location">Location</label>
                 <input type="text" id="location" name="address" required>
+
+                <label for="spots">Spots Available</label>
+                <input type="number" id="spots" name="spots" required min="1">
 
                 <label for="description">Description</label>
                 <textarea id="description" name="description" required></textarea>
@@ -36,6 +39,7 @@
             <p><strong>Date:</strong> <span th:text="${appointment.appointmentDate}"></span></p>
             <p><strong>Location:</strong> <span th:text="${appointment.address}"></span></p>
             <p><strong>Description:</strong> <span th:text="${appointment.description}"></span></p>
+            <p><strong>Spots Available:</strong> <span th:text="${appointment.spots}"></span></p>
             <h3>Registered Users</h3>
             <ul>
                 <li>User 1</li>
