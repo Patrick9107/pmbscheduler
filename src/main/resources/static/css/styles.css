@@ -188,29 +188,6 @@ footer a {
     background-color: darkred; /* Change background color to dark red on hover */
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.25rem 0; /* 20px */
-    font-size: 1rem;
-}
-
-table, th, td {
-    border: 0.125rem solid darkred; /* 2px dark red border */
-    padding: 0.625rem; /* 10px */
-}
-
-th {
-    background-color: red;
-    color: white;
-}
-
-td {
-    background-color: #ffffff;
-    text-align: center;
-    vertical-align: middle;
-}
-
 .apply-button {
     background-color: red;
     color: white;
@@ -421,7 +398,7 @@ ul {
 
 /* Apply button styling */
 .apply-button {
-    background-color: #007bff;
+    background-color: red;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -431,33 +408,72 @@ ul {
 }
 
 .apply-button:hover {
-    background-color: #0056b3;
+    background-color: darkred;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0; /* 20px */
+    font-size: 1rem;
+}
+
+table, th, td {
+    border: 0.125rem solid darkred; /* 2px dark red border */
+    padding: 0.625rem; /* 10px */
+}
+
+th {
+    background-color: red;
+    color: white;
+}
+
+td {
+    background-color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
 }
 
 /* Slots styling */
 .slots {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem; /* Match padding */
+    background-color: #ffffff; /* Match background color */
+}
+
+/* Conditional coloring and icons for slots */
+.slots:before {
+    content: '✔';
+    color: green;
+    margin-right: 0.5rem;
+}
+
+.slots.full:before {
+    content: '✖';
+    color: red;
+    margin-right: 0.5rem;
+}
+
+/* Applied text styling */
+.applied-text {
+    color: green;
     font-weight: bold;
-    color: #333;
+}
+
+/* Apply button styling */
+.apply-button {
+    background-color: red;
+    color: white;
+    border: none;
     padding: 5px 10px;
     border-radius: 5px;
-    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-/* Conditional coloring for slots */
-.slots:after {
-    content: attr(data-slots);
-    background-color: #ffc107;
-    padding: 2px 8px;
-    border-radius: 4px;
-    color: white;
-    margin-left: 5px;
+.apply-button:hover {
+    background-color: darkred;
 }
-
-.slots.full:after {
-    background-color: #dc3545; /* Red for full */
-}
-
-.slots.available:after {
-    background-color: #28a745; /* Green for available */
-}
-
