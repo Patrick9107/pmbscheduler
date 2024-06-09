@@ -33,11 +33,11 @@
                 <form th:action="@{/apply-for-event}" method="post">
                     <td th:if="${roles.contains('ROLE_USER')}">
                         <button th:if="${!usersAppointments.contains(appointment.id)}" class="apply-button">Apply</button>
-                        <div th:if="${usersAppointments.contains(appointment.id)}"> Applied</div>
+                        <div th:if="${usersAppointments.contains(appointment.id)}" class="applied-text"> Applied</div>
                     </td>
                     <input type="hidden" name="id" th:value="${appointment.id}">
                 </form>
-                <td th:text="${personSumForAppointment[__${index.index}__]} + '/' + ${appointment.availableSpots}"></td>
+                <td class="slots" th:text="${personSumForAppointment[__${index.index}__]} + '/' + ${appointment.availableSpots}"></td>
             </tr>
             </tbody>
         </table>

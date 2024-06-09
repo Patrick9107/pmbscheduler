@@ -412,3 +412,52 @@ ul {
 .profile-container button:hover {
     background-color: darkred;
 }
+
+/* Applied text styling */
+.applied-text {
+    color: green;
+    font-weight: bold;
+}
+
+/* Apply button styling */
+.apply-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.apply-button:hover {
+    background-color: #0056b3;
+}
+
+/* Slots styling */
+.slots {
+    font-weight: bold;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+/* Conditional coloring for slots */
+.slots:after {
+    content: attr(data-slots);
+    background-color: #ffc107;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: white;
+    margin-left: 5px;
+}
+
+.slots.full:after {
+    background-color: #dc3545; /* Red for full */
+}
+
+.slots.available:after {
+    background-color: #28a745; /* Green for available */
+}
+
