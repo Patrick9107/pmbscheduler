@@ -38,12 +38,12 @@ public class SecurityConfiguration {
                                         new AntPathRequestMatcher("/register"))
                                 .anonymous()
                         // probieren ob funktioniert wenn wir profile haben
-//                        .requestMatchers(new AntPathRequestMatcher("/profile/**")).not().anonymous()
+                        .requestMatchers(new AntPathRequestMatcher("/user/**")).not().anonymous()
                                 .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
-                .logout(logoutConfig -> logoutConfig.logoutUrl("/profile/logout"));
-//                .formLogin(login -> login.loginPage("/login").permitAll())
+                .logout(logoutConfig -> logoutConfig.logoutUrl("/profile/logout"))
+                .formLogin(login -> login.loginPage("/login").permitAll());
 //                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
