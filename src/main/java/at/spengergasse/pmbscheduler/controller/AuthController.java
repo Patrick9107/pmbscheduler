@@ -4,6 +4,8 @@ import at.spengergasse.pmbscheduler.model.Person;
 import at.spengergasse.pmbscheduler.model.Role;
 import at.spengergasse.pmbscheduler.repository.PersonRepository;
 import at.spengergasse.pmbscheduler.repository.RoleRepository;
+import at.spengergasse.pmbscheduler.service.AuthService;
+import at.spengergasse.pmbscheduler.service.PersonService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -28,23 +30,27 @@ public class AuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-    private PersonRepository personRepository;
+    private PersonService personService;
 
     private RoleRepository roleRepository;
     private AuthenticationManager authenticationManager;
     private PasswordEncoder passwordEncoder;
 
+    private AuthService authService;
 
-    public AuthController(PersonRepository personRepository,
+
+    public AuthController(PersonService personService,
                           RoleRepository roleRepository,
                           AuthenticationManager authenticationManager,
-                          PasswordEncoder passwordEncoder
+                          PasswordEncoder passwordEncoder,
+                          AuthService authService
     )
     {
-        this.personRepository = personRepository;
+        this.personService = personService;
         this.roleRepository = roleRepository;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
+        this.authService = authService;
     }
 
 //    @PostMapping("login")
@@ -66,13 +72,12 @@ public class AuthController {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(person.getEmail(), person.getPassword()));
             SecurityContext securityContext = SecurityContextHolder.getContext();
             securityContext.setAuthentication(authentication);
-            securityContext.getAuthentication().getAuthorities().forEach(grantedAuthority -> System.out.println("Security Context authorities after Authentication:" + grantedAuthority));
 
             // Http session to update security context
             HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
-            model.addAttribute("roles", getAuthorities());
+            model.addAttribute("roles", authService.getAuthorities());
             return "redirect:/";
         } catch (Exception e) {
             System.out.println("Authentication failed " + e);
@@ -84,8 +89,8 @@ public class AuthController {
     @Transactional
     @PostMapping("register")
     public String register(@ModelAttribute Person newPerson, Model model) {
-        if (personRepository.existsByEmail(newPerson.getEmail())) {
-            model.addAttribute("roles", getAuthorities());
+        if (personService.existsByEmail(newPerson.getEmail())) {
+            model.addAttribute("roles", authService.getAuthorities());
             model.addAttribute("error", "Email is already in use!");
             return "register.html";
         }
@@ -97,13 +102,10 @@ public class AuthController {
         person.setLastName(newPerson.getLastName());
         person.setBirthDate(newPerson.getBirthDate());
         roleRepository.findByName("ROLE_USER").ifPresent(role -> person.getRoles().add(role));
-        personRepository.save(person);
+        personService.save(person);
 
-        model.addAttribute("roles", getAuthorities());
+        model.addAttribute("roles", authService.getAuthorities());
         return "redirect:../login";
     }
 
-    private List<String> getAuthorities() {
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-    }
 }

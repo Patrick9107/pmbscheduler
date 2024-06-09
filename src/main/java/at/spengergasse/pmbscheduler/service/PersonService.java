@@ -30,6 +30,10 @@ public class PersonService {
         return personRepository.findByEmail(email);
     }
 
+    public boolean existsByEmail(String email) {
+        return personRepository.existsByEmail(email);
+    };
+
     public List<Long> getCurrentUserAppointments(String userEmail) {
         List<Long> appointments = new ArrayList<>();
         findByEmail(userEmail).ifPresent(person -> {

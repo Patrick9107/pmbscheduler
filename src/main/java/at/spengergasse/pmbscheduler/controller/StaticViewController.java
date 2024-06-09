@@ -1,5 +1,6 @@
 package at.spengergasse.pmbscheduler.controller;
 
+import at.spengergasse.pmbscheduler.service.AuthService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,44 +13,44 @@ import java.util.List;
 @Controller
 public class StaticViewController {
 
+    private AuthService authService;
+
+    public StaticViewController(AuthService authService) {
+        this.authService = authService;
+    }
+
     @GetMapping("/imprint")
     public String showImprint(Model model){
-        model.addAttribute("roles", getAuthorities());
+        model.addAttribute("roles", authService.getAuthorities());
         return "imprint.html";
     }
 
     @GetMapping("terms-of-use")
     public String showTermsOfUser(Model model){
-        model.addAttribute("roles", getAuthorities());
+        model.addAttribute("roles", authService.getAuthorities());
         return "terms-of-use.html";
     }
 
     @GetMapping("/about")
     public String showAbout(Model model){
-        model.addAttribute("roles", getAuthorities());
+        model.addAttribute("roles", authService.getAuthorities());
         return "about.html";
     }
 
     @GetMapping("/")
     public String showHome(Model model) {
-        model.addAttribute("roles", getAuthorities());
+        model.addAttribute("roles", authService.getAuthorities());
         return "index.html";
     }
 
     @GetMapping("/register")
     public String showRegister(Model model) {
-        model.addAttribute("roles", getAuthorities());
+        model.addAttribute("roles", authService.getAuthorities());
         return "register.html";
     }
     @GetMapping("/login")
     public String showLogin(Model model) {
-        model.addAttribute("roles", getAuthorities());
+        model.addAttribute("roles", authService.getAuthorities());
         return "login.html";
-    }
-
-    private List<String> getAuthorities() {
-        List<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        System.out.println(roles);
-        return roles;
     }
 }
