@@ -8,9 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,7 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/auth")
@@ -89,6 +85,7 @@ public class AuthController {
     @PostMapping("register")
     public String register(@ModelAttribute Person newPerson, Model model) {
         if (personRepository.existsByEmail(newPerson.getEmail())) {
+            model.addAttribute("roles", getAuthorities());
             model.addAttribute("error", "Email is already in use!");
             return "register.html";
         }
@@ -98,6 +95,7 @@ public class AuthController {
         person.setPassword(passwordEncoder.encode(newPerson.getPassword()));
         person.setFirstName(newPerson.getFirstName());
         person.setLastName(newPerson.getLastName());
+        person.setBirthDate(newPerson.getBirthDate());
         personRepository.save(person);
         roleRepository.findByName("ROLE_USER").ifPresent(role -> person.getRoles().add(role));
         personRepository.save(person);
