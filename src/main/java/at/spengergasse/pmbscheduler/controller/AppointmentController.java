@@ -101,4 +101,6 @@ public class AppointmentController {
         appointmentService.addApplyingUserToAppointment(id);
         return "redirect:/events";
    }
+
+   // TODO TYP FÜR APPOINTMENTS MACHEN (PRÜFUNG, WORKSHOP, ETC.) UND FUNKTION UM NACH DENEN ZU SORTIEREN (WENN MOTIVATION)
 }

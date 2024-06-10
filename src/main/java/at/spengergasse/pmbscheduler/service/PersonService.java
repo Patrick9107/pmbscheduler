@@ -3,23 +3,37 @@ package at.spengergasse.pmbscheduler.service;
 import at.spengergasse.pmbscheduler.factory.PersonFactory;
 import at.spengergasse.pmbscheduler.model.Appointment;
 import at.spengergasse.pmbscheduler.model.Person;
+import at.spengergasse.pmbscheduler.model.Role;
+import at.spengergasse.pmbscheduler.model.VerificationToken;
 import at.spengergasse.pmbscheduler.repository.PersonRepository;
+import at.spengergasse.pmbscheduler.repository.RoleRepository;
+import at.spengergasse.pmbscheduler.repository.VerificationTokenRepository;
+import io.jsonwebtoken.security.Password;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PersonService {
 
     private final PersonFactory personFactory;
     private PersonRepository personRepository;
+    private PasswordEncoder passwordEncoder;
+    private RoleRepository roleRepository;
+    private VerificationTokenRepository tokenRepository;
 
-    public PersonService(PersonRepository personRepository, PersonFactory personFactory) {
-        this.personRepository = personRepository;
+    public PersonService(PersonFactory personFactory, PersonRepository personRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, VerificationTokenRepository tokenRepository) {
         this.personFactory = personFactory;
+        this.personRepository = personRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+        this.tokenRepository = tokenRepository;
     }
 
     public List<Person> findAllPerson(){
@@ -57,7 +71,40 @@ public class PersonService {
         return persons;
     }
 
+    public List<Role> getUserRoles() {
+        List<Role> roleList = new ArrayList<>();
+        roleRepository.findByName("ROLE_USER").ifPresent(roleList::add);
+        return roleList;
+    }
+
     public void save(Person person){
         personRepository.save(person);
     }
+
+    public String createVerificationToken(Person person) {
+        String uuidToken = UUID.randomUUID().toString().replaceAll("-", "");
+        VerificationToken token = new VerificationToken();
+        token.setPerson(person);
+        token.setToken(uuidToken);
+        token.setExpiresAt(LocalDateTime.now().plusMinutes(15));
+        tokenRepository.save(token);
+        return uuidToken;
+    }
+
+    public Optional<VerificationToken> getVerificationTokenbyToken(String token) {
+        return tokenRepository.getVerificationTokenByToken(token);
+    }
+
+    public Optional<Person> getPersonByVerificationToken(String token) {
+        return tokenRepository.getPersonByVerificationToken(token);
+    }
+
+    public Optional<VerificationToken> getVerificationTokenByPersonId(Long id) {
+        return tokenRepository.getVerificationTokenByPersonId(id);
+    }
+
+    public void saveToken(VerificationToken token) {
+        tokenRepository.save(token);
+    }
+
 }

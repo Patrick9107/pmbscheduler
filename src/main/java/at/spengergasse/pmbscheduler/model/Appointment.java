@@ -12,8 +12,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -37,7 +35,7 @@ public class Appointment {
     @NotNull
     private Integer availableSpots;
     @CreationTimestamp
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    private LocalDateTime updatedOn;
+    private LocalDateTime updatedAt;
 }

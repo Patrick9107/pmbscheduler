@@ -42,8 +42,9 @@ public class SecurityConfiguration {
                                         new AntPathRequestMatcher("/login"),
                                         new AntPathRequestMatcher("/register"))
                                 .anonymous()
-                        // probieren ob funktioniert wenn wir profile haben
-                        .requestMatchers(new AntPathRequestMatcher("/user/**")).fullyAuthenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/user/**"),
+                                new AntPathRequestMatcher("/apply-for-event") )
+                        .fullyAuthenticated()
                                 .anyRequest().permitAll()
                 )
                 .httpBasic(AbstractHttpConfigurer::disable)

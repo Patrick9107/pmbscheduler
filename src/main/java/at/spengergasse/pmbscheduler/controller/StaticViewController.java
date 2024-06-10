@@ -1,6 +1,7 @@
 package at.spengergasse.pmbscheduler.controller;
 
 import at.spengergasse.pmbscheduler.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ public class StaticViewController {
 
     private AuthService authService;
 
+    @Autowired
     public StaticViewController(AuthService authService) {
         this.authService = authService;
     }
