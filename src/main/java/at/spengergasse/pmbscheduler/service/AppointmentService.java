@@ -19,13 +19,16 @@ public class AppointmentService {
     private AppointmentRepository appointmentRepository;
     private AppointmentFactory appointmentFactory;
     private PersonRepository personRepository;
+    private PersonService personService;
+    private AuthService authService;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, AppointmentFactory appointmentFactory, PersonRepository personRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, AppointmentFactory appointmentFactory, PersonRepository personRepository, PersonService personService, AuthService authService) {
         this.appointmentRepository = appointmentRepository;
         this.appointmentFactory = appointmentFactory;
         this.personRepository =personRepository;
-
+        this.personService = personService;
+        this.authService = authService;
     }
 
     public List<Appointment> findAll(){
@@ -73,6 +76,32 @@ public class AppointmentService {
     }
     public Long getPersonCountForAppointment(Long appointmentId) {
         return personRepository.countPersonsByAppointmentId(appointmentId);
+    }
+
+    public List<Long> getPersonSumForAppointment(){
+        List<Long> personSumForAppointment = new ArrayList<>();
+         getSortedAppointmentsAscSortByDateAndTime().forEach(appointment -> personSumForAppointment.add(getPersonCountForAppointment(appointment.getId())));
+         return personSumForAppointment;
+    }
+
+    public void addApplyingUserToAppointment(Long id){
+        String loggedInUserEmail = authService.getLoggedInUserEmail();
+
+        getById(id).ifPresent(appointment -> personService.findByEmail(loggedInUserEmail).ifPresent( person -> {
+            Integer maxSlots =  0;
+
+            if (getById(id).isPresent()){
+                maxSlots = getById(id).get().getAvailableSpots();
+            }
+
+            Long personCountForAppointment = getPersonCountForAppointment(id);
+            // +1 für den User der sich jetzt anmelden möchte
+            if(!person.getAppointments().contains(appointment) && personCountForAppointment + 1 <= maxSlots ){
+                person.getAppointments().add(appointment);
+                personService.save(person);
+            }
+
+        }));
     }
 }
 

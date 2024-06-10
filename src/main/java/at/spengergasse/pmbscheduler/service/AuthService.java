@@ -16,4 +16,8 @@ public class AuthService {
     public List<String> getAuthorities() {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
     }
+
+    public String getLoggedInUserEmail(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 }

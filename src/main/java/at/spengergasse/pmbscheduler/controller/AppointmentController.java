@@ -4,6 +4,7 @@ import at.spengergasse.pmbscheduler.model.Appointment;
 import at.spengergasse.pmbscheduler.model.Person;
 import at.spengergasse.pmbscheduler.repository.PersonRepository;
 import at.spengergasse.pmbscheduler.service.AppointmentService;
+import at.spengergasse.pmbscheduler.service.AuthService;
 import at.spengergasse.pmbscheduler.service.PersonService;
 import jakarta.persistence.Id;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -31,11 +32,13 @@ public class AppointmentController {
 
     private AppointmentService appointmentService;
     private PersonService personService;
+    private AuthService authService;
 
     @Autowired
-    public AppointmentController(AppointmentService appointmentService, PersonService personService) {
+    public AppointmentController(AppointmentService appointmentService, PersonService personService, AuthService authService) {
         this.appointmentService = appointmentService;
         this.personService = personService;
+        this.authService = authService;
     }
 
 
@@ -50,27 +53,29 @@ public class AppointmentController {
 // FÜR FAKE DATEN
     @GetMapping("/events")
     public String returnAppointmentData(Model model){
-        model.addAttribute("roles", getAuthorities());
-        System.out.println(getAuthorities());
         //appointmentService.generateFakeAppointments(10);
-        //List <Appointment> appointments = appointmentService.getSortedAppointmentsAsc();
-        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 
+        System.out.println(authService.getAuthorities());
+
+        model.addAttribute("roles", authService.getAuthorities());
+
+        String loggedInUserEmail = authService.getLoggedInUserEmail();
         model.addAttribute("usersAppointments", personService.getCurrentUserAppointments(loggedInUserEmail));
 
         List<Appointment> appointments = appointmentService.getSortedAppointmentsAscSortByDateAndTime();
         model.addAttribute("appointments", appointments);
 
-
-        List<Long> personSumForAppointment = new ArrayList<>();
-        appointments.forEach(appointment -> personSumForAppointment.add(appointmentService.getPersonCountForAppointment(appointment.getId())));
+        List<Long> personSumForAppointment = appointmentService.getPersonSumForAppointment();
         model.addAttribute("personSumForAppointment", personSumForAppointment);
+
         return "events.html";
     }
 
     @GetMapping("/create-event")
     public String viewCreateEvent(Model model){
-        model.addAttribute("roles", getAuthorities());
+
+        model.addAttribute("roles", authService.getAuthorities());
+
         Optional<Appointment> appointment = appointmentService.getNextAppointment();
         model.addAttribute("appointment", appointment.orElse(null));
         return "create-event.html";
@@ -88,41 +93,11 @@ public class AppointmentController {
         return "redirect:/events";
     }
 
-    private List<String> getAuthorities() {
-        List<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-        System.out.println(roles);
-        return roles;
-    }
-
+    //TODO
    @PostMapping("/apply-for-event")
     public String apply(@RequestParam Long id){
-        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-
-       List<Appointment> appointments = appointmentService.getSortedAppointmentsAscSortByDateAndTime();
-
-
-       List<Long> personSumForAppointment = new ArrayList<>();
-       appointments.forEach(appointment -> personSumForAppointment.add(appointmentService.getPersonCountForAppointment(appointment.getId())));
-
        //wenn ein appointment voll ist soll sich der user nicht mehr anmelden können.
-
-
-       appointmentService.getById(id).ifPresent(appointment -> personService.findByEmail(loggedInUserEmail).ifPresent( person -> {
-           Integer maxSlots =  0;
-
-           if (appointmentService.getById(id).isPresent()){
-               maxSlots = appointmentService.getById(id).get().getAvailableSpots();
-           }
-
-           Long personCountForAppointment = appointmentService.getPersonCountForAppointment(id);
-           // +1 für den User der sich jetzt anmelden möchte
-           if(!person.getAppointments().contains(appointment) && personCountForAppointment + 1 <= maxSlots ){
-               person.getAppointments().add(appointment);
-               personService.save(person);
-           }
-
-       }));
-
+        appointmentService.addApplyingUserToAppointment(id);
         return "redirect:/events";
    }
 }
