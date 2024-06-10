@@ -1,30 +1,30 @@
 /* Root font size for rem units */
 html {
+    font-family: 'Satoshi', sans-serif;
     font-size: 16px; /* 1rem = 16px */
     overflow-x: hidden;
 }
 
 body {
-    overflow-x: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    font-size: 1rem;
     background: url('../img/bg-image.svg') no-repeat center center fixed;
     background-size: cover;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
     padding: 0;
 }
 
 header {
-    padding: 0.625rem 1.25rem; /* 10px 20px */
+    align-items: center;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    padding: 0.625rem 1.25rem; /* 10px 20px */
     position: relative;
-    width: 100%;
     top: 0;
+    width: 100%;
     z-index: 1000;
 }
 
@@ -39,88 +39,102 @@ nav {
 }
 
 nav ul {
-    list-style: none;
-    padding: 0; /* Remove padding */
     display: flex;
     gap: 2rem; /* Adjust gap as needed */
-    /* Adjust this value to move the nav elements slightly right */
-    /* Centering adjustment */
+    list-style: none;
     margin: 0 auto 0 65%;
+    padding: 0; /* Remove padding */
 }
 
 nav ul li {
+    align-self: center; /* Align list items vertically */
     display: inline;
 }
 
 nav ul li a {
-    position: relative;
-    display: inline-block;
-    padding: 1rem; /* Adjust padding */
-    font-size: 1rem;
-    text-decoration: none;
     color: white; /* White color */
+    display: inline-block;
+    font-size: 1rem;
     font-weight: bold;
+    padding: 1rem; /* Adjust padding */
+    position: relative;
+    text-decoration: none;
     transition: color 0.3s ease; /* Transition color change over 0.3 seconds */
 }
 
 nav ul li a:hover {
-    text-underline: black; /* Highlight color */
     color: white; /* Keep text color white */
-}
-
-nav ul li a:not(.login)::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -0.125rem; /* Adjust as necessary */
-    width: 0;
-    height: 2px;
-    background-color: white;
-    transition: width 0.3s ease, left 0.3s ease;
-}
-
-nav ul li a:not(.login):hover::after {
-    width: 100%;
-    left: 0;
+    text-underline: black; /* Highlight color */
 }
 
 nav ul li a.login {
+    align-self: center; /* Ensure the login button is centered vertically */
     background-color: white;
+    border-radius: 0.3125rem; /* 5px */
     color: red;
     padding: 0.625rem 1.25rem; /* 10px 20px */
-    border-radius: 0.3125rem; /* 5px */
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: transform 0.5s ease;
+}
+
+nav ul li a.login:hover {
+    transform: scale(1.1);
+}
+
+nav ul li a:not(.login)::after {
+    background-color: white;
+    bottom: -0.125rem; /* Adjust as necessary */
+    content: '';
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    transition: width 0.3s ease, left 0.3s ease;
+    width: 0;
+}
+
+nav ul li a:not(.login):hover::after {
+    left: 0;
+    width: 100%;
 }
 
 main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     justify-content: center;
 }
 
 .content {
-    width: 100%;
+    align-items: center;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
     padding: 2rem; /* Adjust padding as needed */
+    width: 100%;
 }
 
-/* Adjust this part in your existing CSS */
-/* Adjust this part in your existing CSS */
 .text-right {
-    width: 35%; /* Adjust width as needed */
     color: white;
-    margin-top: -5%; /* Move the text further up */
+    font-size: 1.4rem;
     margin-right: 10%; /* Move the text more to the left */
+    margin-top: -10%; /* Move the text further up */
+    width: 35%; /* Adjust width as needed */
 }
 
+#div-welcome {
+    width: 68.5%;
+}
 
+#div-pmbscheduler {
+    width: 89%;
+}
+
+#h1-welcome {
+    font-size: 5rem;/* Space between heading and paragraph */
+    margin-bottom: -3rem;
+}
 
 .text-right h1 {
-    margin-bottom: 1rem; /* Space between heading and paragraph */
+    font-size: 5rem;/* Space between heading and paragraph */
 }
 
 .text-right p {
@@ -128,61 +142,60 @@ main {
 }
 
 footer {
-    color: white;
-    text-align: center;
-    padding: 1rem 0; /* 16px */
-    display: flex;
-    justify-content: center;
     align-items: center;
+    bottom: 0;
+    color: white;
+    display: flex;
     flex-direction: column;
     gap: 2rem; /* 32px */
+    justify-content: center;
+    padding: 1rem 0; /* 16px */
     position: relative;
+    text-align: center;
     width: 100%;
-    bottom: 0;
     z-index: 1000;
 }
 
 footer a {
-    font-weight: bold;
     color: black;
+    font-weight: bold;
+    horiz-align: center;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
     text-decoration: none;
     transition: color 0.3s ease;
-    justify-content: center;
-    horiz-align: center;
-    padding-right: 1rem;
-    padding-left: 1rem;
 }
 
 footer a:hover {
     color: red;
 }
 
-/* Additional styles for the rest of your content */
 .form-container {
     background-color: #ffffff;
-    padding: 2.5rem; /* 40px */
     border-radius: 0.625rem; /* 10px */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    width: 100%;
+    margin-top: 100px; /* Add margin to account for fixed header */
     max-width: 400px; /* 400px */
+    padding: 2.5rem; /* 40px */
     text-align: center; /* Center content */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-top: 100px; /* Add margin to account for fixed header */
+    width: 100%;
 }
 
 .form-container:hover {
-    transform: translateY(-10px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transform: translateY(-10px);
 }
 
 .content-container {
     background-color: #ffffff;
-    padding: 2.5rem; /* 40px */
     border-radius: 0.625rem; /* 10px */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    width: 90%; /* Make the container responsive */
-    max-width: 50rem; /* 800px */
     margin: 2.5rem auto; /* 40px auto */
+    max-width: 50rem; /* 800px */
+    padding: 2.5rem; /* 40px */
+    width: 90%; /* Make the container responsive */
 }
 
 .form-container h2, .content-container h1 {
@@ -193,9 +206,9 @@ footer a:hover {
 
 .form-container label, .content-container p {
     color: black;
+    display: block;
     line-height: 1.6;
     margin-bottom: 1.25rem; /* 20px */
-    display: block;
 }
 
 .form-container input[type="text"],
@@ -204,17 +217,18 @@ footer a:hover {
 .form-container input[type="date"],
 .form-container input[type="time"],
 .form-container textarea {
-    padding: 0.625rem; /* 10px */
-    font-size: 1rem;
-    width: 100%;
-    max-width: 20rem; /* Ensure max-width */
-    border-radius: 0.3125rem; /* 5px */
-    border: 0.125rem solid #ff3b30; /* 2px red border */
-    margin: 0 auto 1.25rem; /* 20px */
-    display: block; /* Center the input fields */
-    box-sizing: border-box;
     appearance: none; /* Remove default styling */
+    border: 0.125rem solid #ff3b30; /* 2px red border */
+    border-radius: 0.3125rem; /* 5px */
+    box-sizing: border-box;
+    display: block; /* Center the input fields */
+    font-size: 1rem;
+    margin: 0 auto 1.25rem; /* 20px */
+    max-width: 20rem; /* Ensure max-width */
+    padding: 0.625rem; /* 10px */
+    resize: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
 }
 
 .form-container input[type="text"]:focus,
@@ -234,12 +248,12 @@ footer a:hover {
 
 .form-container button {
     background-color: #ff3b30;
-    color: white;
-    padding: 0.625rem 1.25rem; /* 10px 20px */
     border: none;
     border-radius: 0.3125rem; /* 5px */
+    color: white;
     cursor: pointer;
     font-size: 1rem;
+    padding: 0.625rem 1.25rem; /* 10px 20px */
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -250,13 +264,13 @@ footer a:hover {
 
 .form-container .register-button {
     background-color: #ff3b30; /* Change background color to red */
-    color: white; /* Change text color to white */
-    padding: 0.625rem 1.25rem; /* 10px 20px */
     border: none;
     border-radius: 0.3125rem; /* 5px */
+    color: white; /* Change text color to white */
     cursor: pointer;
     font-size: 1rem;
     margin-top: 0.625rem; /* 10px */
+    padding: 0.625rem 1.25rem; /* 10px 20px */
     text-decoration: none; /* Remove underline decoration */
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
@@ -268,14 +282,14 @@ footer a:hover {
 
 .apply-button {
     background-color: #ff3b30;
-    color: white;
-    padding: 0.625rem 1.25rem; /* 10px 20px */
     border: none;
     border-radius: 0.3125rem; /* 5px */
+    color: white;
     cursor: pointer;
-    font-size: 1rem;
     display: inline-block;
+    font-size: 1rem;
     margin: 0 auto; /* Center the button horizontally */
+    padding: 0.625rem 1.25rem; /* 10px 20px */
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -295,34 +309,33 @@ footer a:hover {
     }
 }
 
-/* Position the button relative to the input */
 .search-section {
-    position: relative;
     margin: 1.25rem 0; /* 20px */
+    position: relative;
 }
 
-/* Style the button */
 #search-button {
-    position: absolute;
-    top: 50%;
-    right: 0.5rem;
-    transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 textarea {
-    padding: 0.625rem; /* 10px */
-    font-size: 1rem;
-    width: 100%;
-    max-width: 20rem; /* Ensure max-width */
-    border-radius: 0.3125rem; /* 5px */
     border: 0.125rem solid #ff3b30; /* 2px red border */
-    margin: 0 auto 1.25rem; /* 20px */
-    display: block; /* Center the input fields */
+    border-radius: 0.3125rem; /* 5px */
     box-sizing: border-box;
+    display: block; /* Center the input fields */
+    font-size: 1rem;
+    margin: 0 auto 1.25rem; /* 20px */
+    max-width: 20rem; /* Ensure max-width */
+    padding: 0.625rem; /* 10px */
+    resize: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
 }
 
 textarea:focus {
@@ -330,51 +343,29 @@ textarea:focus {
     box-shadow: 0 0 8px rgba(255, 59, 48, 0.5);
 }
 
-.form-container input[type="date"],
-.form-container input[type="time"] {
-    padding: 0.625rem; /* 10px */
-    font-size: 1rem;
-    width: 100%;
-    max-width: 20rem; /* Ensure max-width */
-    border-radius: 0.3125rem; /* 5px */
-    border: 0.125rem solid #ff3b30; /* 2px red border */
-    margin: 0 auto 1.25rem; /* 20px */
-    display: block; /* Center the input fields */
-    box-sizing: border-box;
-    text-align: center; /* Center the text */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-container input[type="date"]:focus,
-.form-container input[type="time"]:focus {
-    border-color: #ff3b30;
-    box-shadow: 0 0 8px rgba(255, 59, 48, 0.5);
-}
-
-/* Additional Styles for Create Event Page */
 .container {
+    align-items: flex-start; /* Align items to the top */
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
-    align-items: flex-start; /* Align items to the top */
-    width: 90%;
-    max-width: 1000px;
     margin: 2.5rem auto; /* 40px auto */
+    max-width: 1000px;
+    width: 90%;
 }
 
 .form-container, .event-container {
-    flex: 0 1 48%; /* Flex grow, shrink, and basis */
     background-color: #ffffff;
-    padding: 2.5rem; /* 40px */
     border-radius: 0.625rem; /* 10px */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    flex: 0 1 48%; /* Flex grow, shrink, and basis */
     margin: 1rem; /* 16px */
+    padding: 2.5rem; /* 40px */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-container:hover, .event-container:hover {
-    transform: translateY(-10px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transform: translateY(-10px);
 }
 
 .event-container h3 {
@@ -393,8 +384,8 @@ ul {
 
     .form-container, .event-container {
         flex: 1 1 100%;
-        max-width: 100%;
         margin: 1rem 0; /* 16px 0 */
+        max-width: 100%;
     }
 }
 
@@ -406,19 +397,19 @@ ul {
 
 .profile-container {
     background-color: #ffffff;
-    padding: 2.5rem; /* 40px */
     border-radius: 0.625rem; /* 10px */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    width: 100%;
-    max-width: 400px; /* 400px */
-    text-align: center; /* Center content */
     margin: 2.5rem auto; /* 40px auto */
+    max-width: 400px; /* 400px */
+    padding: 2.5rem; /* 40px */
+    text-align: center; /* Center content */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
 }
 
 .profile-container:hover {
-    transform: translateY(-10px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transform: translateY(-10px);
 }
 
 .profile-container h2 {
@@ -433,22 +424,23 @@ ul {
 
 .profile-info label {
     color: black;
-    line-height: 1.6;
     display: block;
+    line-height: 1.6;
     margin-bottom: 0.625rem; /* 10px */
 }
 
 .profile-info input[type="text"],
 .profile-info input[type="email"],
 .profile-info textarea {
-    padding: 0.625rem; /* 10px */
-    font-size: 1rem;
-    width: 100%;
-    border-radius: 0.3125rem; /* 5px */
-    border: 0.125rem solid #ff3b30; /* 2px red border */
-    box-sizing: border-box;
     appearance: none; /* Remove default styling */
+    border: 0.125rem solid #ff3b30; /* 2px red border */
+    border-radius: 0.3125rem; /* 5px */
+    box-sizing: border-box;
+    display: block; /* Center the input fields */
+    font-size: 1rem;
+    padding: 0.625rem; /* 10px */
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
 }
 
 .profile-info input[type="text"]:focus,
@@ -464,13 +456,13 @@ ul {
 
 .profile-container button {
     background-color: #ff3b30;
-    color: white;
-    padding: 0.625rem 1.25rem; /* 10px 20px */
     border: none;
     border-radius: 0.3125rem; /* 5px */
+    color: white;
     cursor: pointer;
     font-size: 1rem;
     margin-top: 0.625rem; /* 10px */
+    padding: 0.625rem 1.25rem; /* 10px 20px */
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -479,20 +471,18 @@ ul {
     transform: translateY(-2px);
 }
 
-/* Applied text styling */
 .applied-text {
     color: green;
     font-weight: bold;
 }
 
-/* Apply button styling */
 .apply-button {
     background-color: #ff3b30;
-    color: white;
     border: none;
-    padding: 5px 10px;
     border-radius: 5px;
+    color: white;
     cursor: pointer;
+    padding: 5px 10px;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -501,12 +491,11 @@ ul {
     transform: translateY(-2px);
 }
 
-/* Table styling */
 table {
-    width: 100%;
     border-collapse: collapse;
-    margin: 1.25rem 0; /* 20px */
     font-size: 1rem;
+    margin: 1.25rem 0; /* 20px */
+    width: 100%;
 }
 
 table, th, td {
@@ -525,26 +514,24 @@ td {
     vertical-align: middle;
 }
 
-/* Slots styling */
 .slots {
-    display: inline-flex;
     align-items: center;
+    background-color: #ffffff; /* Match background color */
+    display: inline-flex;
     justify-content: center;
     padding: 0.625rem; /* Match padding */
-    background-color: #ffffff; /* Match background color */
     transition: background-color 0.3s ease;
 }
 
-/* Conditional coloring and icons for slots */
 .slots:before {
-    content: '✔';
     color: green;
+    content: '✔';
     margin-right: 0.5rem;
 }
 
 .slots.full:before {
-    content: '✖';
     color: red;
+    content: '✖';
     margin-right: 0.5rem;
 }
 
@@ -554,42 +541,42 @@ td {
 
 .error-content {
     background-color: white;
-    padding: 3rem; /* Increase padding */
     border-radius: 0.625rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    max-width: 15rem; /* Increase max width */
-    width: 100%;
     font-size: 1.25rem; /* Increase font size */
+    max-width: 15rem; /* Increase max width */
+    padding: 3rem; /* Increase padding */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
 }
 
 .error-content:hover {
-    transform: translateY(-10px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transform: translateY(-10px);
 }
 
 .error-content h1 {
-    font-size: 4rem; /* Increase font size */
     color: red;
+    font-size: 4rem; /* Increase font size */
     margin-bottom: 1rem;
 }
 
 .error-content p {
-    font-size: 1.5rem; /* Increase font size */
     color: #333;
+    font-size: 1.5rem; /* Increase font size */
     margin-bottom: 2rem;
 }
 
 .home-button {
-    display: inline-block;
-    padding: 1rem 2rem; /* Increase padding */
-    font-size: 1.25rem; /* Increase font size */
-    color: white;
     background-color: red;
     border: none;
     border-radius: 0.3125rem;
-    text-decoration: none;
+    color: white;
     cursor: pointer;
+    display: inline-block;
+    font-size: 1.25rem; /* Increase font size */
+    padding: 1rem 2rem; /* Increase padding */
+    text-decoration: none;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -599,17 +586,41 @@ td {
 }
 
 .logout-link {
-    display: inline-block;
-    padding: 0.625rem 1.25rem; /* 10px 20px */
     background-color: red;
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
     border-radius: 0.3125rem; /* 5px */
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: bold;
+    padding: 0.625rem 1.25rem; /* 10px 20px */
+    text-decoration: none;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .logout-link:hover {
     background-color: darkred;
     transform: translateY(-2px);
+}
+
+h1 {
+    position: relative;
+}
+
+h1::before {
+    background-color: white;
+    border-radius: 4px;
+    bottom: 0;
+    content: '';
+    height: 4px;
+    left: 0;
+    position: absolute;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+}
+
+h1:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
 }

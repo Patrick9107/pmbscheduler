@@ -53,4 +53,10 @@ public class StaticViewController {
         model.addAttribute("roles", authService.getAuthorities());
         return "login.html";
     }
+
+    @GetMapping("/contact")
+    public String showContact(Model model) {
+        model.addAttribute("roles", authService.getAuthorities());
+        return "contact.html";
+    }
 }
