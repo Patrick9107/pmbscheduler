@@ -540,6 +540,12 @@ td {
 }
 
 .error-content {
+
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-color: white;
     border-radius: 0.625rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
