@@ -64,11 +64,12 @@ public class AppointmentService {
         return appointmentRepository.findById(Id);
     }
 
-    public Appointment createAppointment(String description, LocalDate appointmentDate, LocalTime time, String address){
+    public Appointment createAppointment(String description, LocalDate appointmentDate, LocalTime time, String address, Integer availableSpots){
         Appointment appointment = Appointment.builder()
                 .description(description)
                 .appointmentDate(appointmentDate)
                 .time(time)
+                .availableSpots(availableSpots)
                 .address(address)
                 .build();
 

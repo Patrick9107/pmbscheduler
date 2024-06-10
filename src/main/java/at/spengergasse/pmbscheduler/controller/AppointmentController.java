@@ -86,10 +86,11 @@ public class AppointmentController {
             @RequestParam String description,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate appointmentDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
-            @RequestParam String address
+            @RequestParam String address,
+            @RequestParam Integer availableSpots
     ){
 
-        appointmentService.createAppointment(description, appointmentDate, time, address);
+        appointmentService.createAppointment(description, appointmentDate, time, address, availableSpots);
         return "redirect:/events";
     }
 
