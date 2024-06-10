@@ -33,8 +33,9 @@
                 <td th:text="${appointment.description}">Description</td>
                 <form th:action="@{/apply-for-event}" method="post">
                     <td th:if="${roles.contains('ROLE_USER')}">
-                        <button th:if="${!usersAppointments.contains(appointment.id)}" class="apply-button">Apply</button>
+                        <button th:if="${!usersAppointments.contains(appointment.id) and !(personSumForAppointment[__${index.index}__] == appointment.availableSpots)}" class="apply-button">Apply</button>
                         <div th:if="${usersAppointments.contains(appointment.id)}" class="applied-text">Applied</div>
+                        <div th:if="${!usersAppointments.contains(appointment.id) and personSumForAppointment[__${index.index}__] == appointment.availableSpots}" class="full-text">Full</div>
                     </td>
                     <input type="hidden" name="id" th:value="${appointment.id}">
                 </form>

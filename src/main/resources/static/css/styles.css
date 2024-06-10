@@ -480,6 +480,11 @@ ul {
     font-weight: bold;
 }
 
+.full-text {
+    color: red;
+    font-weight: bold;
+}
+
 .apply-button {
     background-color: #ff3b30;
     border: none;
