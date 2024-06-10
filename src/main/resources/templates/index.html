@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | PMB-Scheduler</title>
     <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <header th:replace="~{fragments/header :: header}">
 </header>
 <main>
-    <div class="search-section">
-        <input type="text" id="search-input" placeholder="Search">
-        <button type="submit" id="search-button"><img th:src="@{/img/loop-search.png}" alt="Search"></button>
-    </div>
-    <div class="image-section">
-        <img th:src="@{/img/img-index.png}" alt="Placeholder" height="500rem" width="1250rem">
+    <div class="content">
+        <div class="text-right">
+            <h1>Welcome to PMB-Scheduler</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum.</p>
+        </div>
     </div>
 </main>
 <footer th:replace="~{fragments/footer :: footer}">

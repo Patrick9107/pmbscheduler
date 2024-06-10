@@ -53,7 +53,7 @@ public class AppointmentController {
 // FÜR FAKE DATEN
     @GetMapping("/events")
     public String returnAppointmentData(Model model){
-        //appointmentService.generateFakeAppointments(10);
+//        appointmentService.generateFakeAppointments(20);
 
         System.out.println(authService.getAuthorities());
 

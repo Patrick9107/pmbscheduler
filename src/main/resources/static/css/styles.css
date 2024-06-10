@@ -1,42 +1,51 @@
 /* Root font size for rem units */
 html {
     font-size: 16px; /* 1rem = 16px */
+    overflow-x: hidden;
 }
 
 body {
-    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     font-size: 1rem;
+    background: url('../img/bg-image.svg') no-repeat center center fixed;
+    background-size: cover;
+    padding: 0;
 }
 
 header {
-    background-color: #ffffff;
     padding: 0.625rem 1.25rem; /* 10px 20px */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 0.3125rem solid red; /* 5px */
+    position: relative;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
 }
 
-footer {
-    background-color: #ffffff;
-    border-bottom: 0.3125rem solid red; /* Match the color theme */
+header .logo img {
+    height: 5rem;
 }
 
-.logo img {
-    height: 3.125rem; /* 50px */
+nav {
+    display: flex;
+    justify-content: center; /* Center the nav elements */
+    width: 100%; /* Ensure it takes up the full width */
 }
 
 nav ul {
     list-style: none;
-    margin: 0;
-    padding: 0;
+    padding: 0; /* Remove padding */
     display: flex;
-    gap: 3rem; /* 48px */
+    gap: 2rem; /* Adjust gap as needed */
+    /* Adjust this value to move the nav elements slightly right */
+    /* Centering adjustment */
+    margin: 0 auto 0 65%;
 }
 
 nav ul li {
@@ -44,25 +53,43 @@ nav ul li {
 }
 
 nav ul li a {
+    position: relative;
+    display: inline-block;
+    padding: 1rem; /* Adjust padding */
+    font-size: 1rem;
     text-decoration: none;
-    color: black;
+    color: white; /* White color */
     font-weight: bold;
-    transition: color 0.25s ease; /* Transition color change over 0.25 seconds */
+    transition: color 0.3s ease; /* Transition color change over 0.3 seconds */
 }
 
 nav ul li a:hover {
-    color: red; /* Light red color */
+    text-underline: black; /* Highlight color */
+    color: white; /* Keep text color white */
+}
+
+nav ul li a:not(.login)::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -0.125rem; /* Adjust as necessary */
+    width: 0;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+nav ul li a:not(.login):hover::after {
+    width: 100%;
+    left: 0;
 }
 
 nav ul li a.login {
-    background-color: red;
-    color: white;
+    background-color: white;
+    color: red;
     padding: 0.625rem 1.25rem; /* 10px 20px */
     border-radius: 0.3125rem; /* 5px */
-}
-
-nav ul li a.login:hover {
-    background-color: darkred;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 main {
@@ -71,68 +98,95 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #f4f4f4;
 }
 
-.search-section {
-    margin: 1.25rem 0; /* 20px */
-}
-
-.search-section input[type="text"] {
-    padding: 0.625rem; /* 10px */
-    font-size: 1rem;
-    width: 18.75rem; /* 300px */
-    border-radius: 0.3125rem; /* 5px */
-    border: 0.0625rem solid #ccc; /* 1px */
-}
-
-.image-section {
-    /*background-color: #ddd;*/
-    width: 80%;
-    height: 30rem; /* 480px */
+.content {
+    width: 100%;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
-    justify-content: center;
+    padding: 2rem; /* Adjust padding as needed */
+}
+
+/* Adjust this part in your existing CSS */
+/* Adjust this part in your existing CSS */
+.text-right {
+    width: 35%; /* Adjust width as needed */
+    color: white;
+    margin-top: -5%; /* Move the text further up */
+    margin-right: 10%; /* Move the text more to the left */
+}
+
+
+
+.text-right h1 {
+    margin-bottom: 1rem; /* Space between heading and paragraph */
+}
+
+.text-right p {
+    line-height: 1.6; /* Adjust line-height for better readability */
 }
 
 footer {
-    background-color: red;
     color: white;
     text-align: center;
-    padding: 0.625rem 0; /* 10px */
+    padding: 1rem 0; /* 16px */
     display: flex;
     justify-content: center;
-    gap: 3.125rem; /* 50px */
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem; /* 32px */
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000;
 }
 
 footer a {
-    color: white;
+    font-weight: bold;
+    color: black;
     text-decoration: none;
-    margin: 0 1.25rem; /* 20px */
+    transition: color 0.3s ease;
+    justify-content: center;
+    horiz-align: center;
+    padding-right: 1rem;
+    padding-left: 1rem;
 }
 
+footer a:hover {
+    color: red;
+}
+
+/* Additional styles for the rest of your content */
 .form-container {
     background-color: #ffffff;
     padding: 2.5rem; /* 40px */
     border-radius: 0.625rem; /* 10px */
-    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1); /* 10px */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     width: 100%;
     max-width: 400px; /* 400px */
     text-align: center; /* Center content */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 100px; /* Add margin to account for fixed header */
+}
+
+.form-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .content-container {
     background-color: #ffffff;
     padding: 2.5rem; /* 40px */
     border-radius: 0.625rem; /* 10px */
-    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1); /* 10px */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     width: 90%; /* Make the container responsive */
     max-width: 50rem; /* 800px */
     margin: 2.5rem auto; /* 40px auto */
 }
 
 .form-container h2, .content-container h1 {
-    color: red;
+    color: #ff3b30;
     margin-bottom: 1.25rem; /* 20px */
     text-align: center;
 }
@@ -155,11 +209,22 @@ footer a {
     width: 100%;
     max-width: 20rem; /* Ensure max-width */
     border-radius: 0.3125rem; /* 5px */
-    border: 0.125rem solid darkred; /* 2px dark red border */
+    border: 0.125rem solid #ff3b30; /* 2px red border */
     margin: 0 auto 1.25rem; /* 20px */
     display: block; /* Center the input fields */
     box-sizing: border-box;
     appearance: none; /* Remove default styling */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="email"]:focus,
+.form-container input[type="password"]:focus,
+.form-container input[type="date"]:focus,
+.form-container input[type="time"]:focus,
+.form-container textarea:focus {
+    border-color: #ff3b30;
+    box-shadow: 0 0 8px rgba(255, 59, 48, 0.5);
 }
 
 .form-container input[type="date"],
@@ -168,17 +233,23 @@ footer a {
 }
 
 .form-container button {
-    background-color: red;
+    background-color: #ff3b30;
     color: white;
     padding: 0.625rem 1.25rem; /* 10px 20px */
     border: none;
     border-radius: 0.3125rem; /* 5px */
     cursor: pointer;
     font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #e02929;
+    transform: translateY(-2px);
 }
 
 .form-container .register-button {
-    background-color: red; /* Change background color to red */
+    background-color: #ff3b30; /* Change background color to red */
     color: white; /* Change text color to white */
     padding: 0.625rem 1.25rem; /* 10px 20px */
     border: none;
@@ -187,14 +258,16 @@ footer a {
     font-size: 1rem;
     margin-top: 0.625rem; /* 10px */
     text-decoration: none; /* Remove underline decoration */
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .form-container .register-button:hover {
-    background-color: darkred; /* Change background color to dark red on hover */
+    background-color: #e02929; /* Change background color to dark red on hover */
+    transform: translateY(-2px);
 }
 
 .apply-button {
-    background-color: red;
+    background-color: #ff3b30;
     color: white;
     padding: 0.625rem 1.25rem; /* 10px 20px */
     border: none;
@@ -203,10 +276,12 @@ footer a {
     font-size: 1rem;
     display: inline-block;
     margin: 0 auto; /* Center the button horizontally */
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .apply-button:hover {
-    background-color: darkred;
+    background-color: #e02929;
+    transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {
@@ -237,37 +312,22 @@ footer a {
     cursor: pointer;
 }
 
-/* Style the icon inside the button */
-#search-button img {
-    width: 1rem; /* Adjust icon size as needed */
-}
-
-/* Adjust input width to accommodate the button */
-#search-input {
-    padding-right: 1.5rem; /* Space for the button */
-}
-
-nav ul li a:not(.login) {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-    transition: color 0.25s ease; /* Transition color change over 0.25 seconds */
-}
-
-nav ul li a:not(.login):hover {
-    color: red; /* Light red color */
-}
-
 textarea {
     padding: 0.625rem; /* 10px */
     font-size: 1rem;
     width: 100%;
     max-width: 20rem; /* Ensure max-width */
     border-radius: 0.3125rem; /* 5px */
-    border: 0.125rem solid darkred; /* 2px dark red border */
+    border: 0.125rem solid #ff3b30; /* 2px red border */
     margin: 0 auto 1.25rem; /* 20px */
     display: block; /* Center the input fields */
     box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea:focus {
+    border-color: #ff3b30;
+    box-shadow: 0 0 8px rgba(255, 59, 48, 0.5);
 }
 
 .form-container input[type="date"],
@@ -277,11 +337,18 @@ textarea {
     width: 100%;
     max-width: 20rem; /* Ensure max-width */
     border-radius: 0.3125rem; /* 5px */
-    border: 0.125rem solid darkred; /* 2px dark red border */
+    border: 0.125rem solid #ff3b30; /* 2px red border */
     margin: 0 auto 1.25rem; /* 20px */
     display: block; /* Center the input fields */
     box-sizing: border-box;
     text-align: center; /* Center the text */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-container input[type="date"]:focus,
+.form-container input[type="time"]:focus {
+    border-color: #ff3b30;
+    box-shadow: 0 0 8px rgba(255, 59, 48, 0.5);
 }
 
 /* Additional Styles for Create Event Page */
@@ -300,12 +367,14 @@ textarea {
     background-color: #ffffff;
     padding: 2.5rem; /* 40px */
     border-radius: 0.625rem; /* 10px */
-    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1); /* 10px */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     margin: 1rem; /* 16px */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.event-container {
-    max-width: 48%; /* Ensure it doesn't stretch too much */
+.form-container:hover, .event-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .event-container h3 {
@@ -329,7 +398,6 @@ ul {
     }
 }
 
-
 #error {
     color: red;
     font-weight: bold;
@@ -340,15 +408,21 @@ ul {
     background-color: #ffffff;
     padding: 2.5rem; /* 40px */
     border-radius: 0.625rem; /* 10px */
-    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1); /* 10px */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     width: 100%;
     max-width: 400px; /* 400px */
     text-align: center; /* Center content */
     margin: 2.5rem auto; /* 40px auto */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .profile-container h2 {
-    color: red;
+    color: #ff3b30;
     margin-bottom: 1.25rem; /* 20px */
     text-align: center;
 }
@@ -371,9 +445,17 @@ ul {
     font-size: 1rem;
     width: 100%;
     border-radius: 0.3125rem; /* 5px */
-    border: 0.125rem solid darkred; /* 2px dark red border */
+    border: 0.125rem solid #ff3b30; /* 2px red border */
     box-sizing: border-box;
     appearance: none; /* Remove default styling */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-info input[type="text"]:focus,
+.profile-info input[type="email"]:focus,
+.profile-info textarea:focus {
+    border-color: #ff3b30;
+    box-shadow: 0 0 8px rgba(255, 59, 48, 0.5);
 }
 
 .profile-info textarea {
@@ -381,7 +463,7 @@ ul {
 }
 
 .profile-container button {
-    background-color: red;
+    background-color: #ff3b30;
     color: white;
     padding: 0.625rem 1.25rem; /* 10px 20px */
     border: none;
@@ -389,10 +471,12 @@ ul {
     cursor: pointer;
     font-size: 1rem;
     margin-top: 0.625rem; /* 10px */
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .profile-container button:hover {
-    background-color: darkred;
+    background-color: #e02929;
+    transform: translateY(-2px);
 }
 
 /* Applied text styling */
@@ -403,17 +487,18 @@ ul {
 
 /* Apply button styling */
 .apply-button {
-    background-color: red;
+    background-color: #ff3b30;
     color: white;
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .apply-button:hover {
-    background-color: darkred;
+    background-color: #e02929;
+    transform: translateY(-2px);
 }
 
 /* Table styling */
@@ -425,12 +510,12 @@ table {
 }
 
 table, th, td {
-    border: 0.125rem solid darkred; /* 2px dark red border */
+    border: 0.125rem solid #ff3b30; /* 2px red border */
     padding: 0.625rem; /* 10px */
 }
 
 th {
-    background-color: red;
+    background-color: #ff3b30;
     color: white;
 }
 
@@ -447,6 +532,7 @@ td {
     justify-content: center;
     padding: 0.625rem; /* Match padding */
     background-color: #ffffff; /* Match background color */
+    transition: background-color 0.3s ease;
 }
 
 /* Conditional coloring and icons for slots */
@@ -462,46 +548,24 @@ td {
     margin-right: 0.5rem;
 }
 
-/* Applied text styling */
-.applied-text {
-    color: green;
-    font-weight: bold;
-}
-
-/* Apply button styling */
-.apply-button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.apply-button:hover {
-    background-color: darkred;
-}
-
-/* Error page styling */
-.error-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f4f4f4;
-    padding: 3rem; /* Increase padding */
-    text-align: center;
+.slots.full {
+    background-color: #ffd1cf;
 }
 
 .error-content {
     background-color: white;
     padding: 3rem; /* Increase padding */
     border-radius: 0.625rem;
-    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
-    max-width: 600px; /* Increase max width */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    max-width: 15rem; /* Increase max width */
     width: 100%;
     font-size: 1.25rem; /* Increase font size */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.error-content:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .error-content h1 {
@@ -526,11 +590,12 @@ td {
     border-radius: 0.3125rem;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .home-button:hover {
     background-color: darkred;
+    transform: translateY(-2px);
 }
 
 .logout-link {
@@ -541,10 +606,10 @@ td {
     font-weight: bold;
     text-decoration: none;
     border-radius: 0.3125rem; /* 5px */
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .logout-link:hover {
     background-color: darkred;
+    transform: translateY(-2px);
 }
-
