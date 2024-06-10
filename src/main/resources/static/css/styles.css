@@ -127,11 +127,15 @@ main {
 #div-pmbscheduler {
     width: 89%;
 }
+#div-aboutus{
+    width: 49%;
+}
 
 #h1-welcome {
     font-size: 5rem;/* Space between heading and paragraph */
     margin-bottom: -3rem;
 }
+
 
 .text-right h1 {
     font-size: 5rem;/* Space between heading and paragraph */
