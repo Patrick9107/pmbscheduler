@@ -52,20 +52,28 @@ public class AuthController {
     @PostMapping("login")
     public String login(HttpServletRequest request, @ModelAttribute Person person, Model model) {
         try {
+            Person person1 = personService.findByEmail(person.getEmail()).get();
+            if (!person1.getIsVerfied()) {
+                model.addAttribute("error", "You have to be verified to log in");
+                model.addAttribute("roles", authService.getAuthorities());
+                return "login";
+            }
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(person.getEmail(), person.getPassword()));
             SecurityContext securityContext = SecurityContextHolder.getContext();
             securityContext.setAuthentication(authentication);
-            // Http session to update security context
+            // Http session to update security context{
             HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
             model.addAttribute("roles", authService.getAuthorities());
             return "redirect:/";
         } catch (Exception e) {
             System.out.println("Authentication failed " + e);
+            model.addAttribute("roles", authService.getAuthorities());
             model.addAttribute("error", "Invalid email or password");
             return "login";
         }
     }
+
     @Transactional
     @PostMapping("register")
     public String register(@ModelAttribute Person newPerson, Model model) {
@@ -95,6 +103,7 @@ public class AuthController {
         );
         return "redirect:../login";
     }
+
     @GetMapping("/verify")
     public String verify(@RequestParam("token") String token) {
         Optional<Person> personOptional = tokenService.getPersonByVerificationToken(token);
@@ -106,10 +115,14 @@ public class AuthController {
             // already verified
             return "redirect:../";
         }
-        // todo if token already expired
-        // if token match
         Optional<VerificationToken> tokenOptional = tokenService.getVerificationTokenByPersonId(personOptional.get().getId());
+        // if token match
         if (tokenOptional.isPresent()) {
+            // if token expired
+            // todo nochmal anschauen
+            if (tokenOptional.get().getExpiresAt().isBefore(LocalDateTime.now())) {
+                return "/error";
+            }
             personOptional.get().setIsVerfied(true);
             tokenOptional.get().setConfirmedAt(LocalDateTime.now());
             personService.save(personOptional.get());

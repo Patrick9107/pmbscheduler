@@ -9,10 +9,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -50,5 +52,23 @@ public class PersonController {
         List<Person> persons = personService.generateFakePersons(10); // Generate 10 fake persons
         model.addAttribute("persons", persons);
         return "index.html";
+    }
+
+    @PostMapping("/update-profile")
+    public String updateProfile(@RequestParam(value = "firstName", required = false) String firstName,
+                                @RequestParam(value = "lastName", required = false) String lastName,
+                                @RequestParam(value = "email", required = false) String email) {
+
+        Optional<Person> personOptional = personService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (personOptional.isPresent()) {
+            if (firstName != null && !firstName.isBlank())
+                personOptional.get().setFirstName(firstName);
+            if (lastName != null && !lastName.isBlank())
+                personOptional.get().setLastName(lastName);
+            if (email != null && !email.isBlank())
+                personOptional.get().setEmail(email);
+            personService.save(personOptional.get());
+        }
+        return "redirect:profile";
     }
 }
