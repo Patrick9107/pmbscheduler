@@ -639,3 +639,9 @@ h1:hover::before {
     transform: scaleX(1);
     transform-origin: left;
 }
+
+#eventheading{
+    color: white;
+    font-size: 5rem;
+    margin-top: 3rem;
+}
