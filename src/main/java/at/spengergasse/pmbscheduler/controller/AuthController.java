@@ -82,6 +82,7 @@ public class AuthController {
             model.addAttribute("error", "Email is already in use!");
             return "register.html";
         }
+        // todo check if attributes are not null / not blank etc
         Person person = new Person();
         person.setEmail(newPerson.getEmail());
         person.setPassword(passwordEncoder.encode(newPerson.getPassword()));

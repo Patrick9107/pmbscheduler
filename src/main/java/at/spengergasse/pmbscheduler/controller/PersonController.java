@@ -58,7 +58,7 @@ public class PersonController {
     public String updateProfile(@RequestParam(value = "firstName", required = false) String firstName,
                                 @RequestParam(value = "lastName", required = false) String lastName,
                                 @RequestParam(value = "email", required = false) String email) {
-
+        // todo check if params are not null / not blank etc
         Optional<Person> personOptional = personService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (personOptional.isPresent()) {
             if (firstName != null && !firstName.isBlank())
