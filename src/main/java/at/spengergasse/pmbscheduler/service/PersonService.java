@@ -9,6 +9,7 @@ import at.spengergasse.pmbscheduler.repository.PersonRepository;
 import at.spengergasse.pmbscheduler.repository.RoleRepository;
 import at.spengergasse.pmbscheduler.repository.VerificationTokenRepository;
 import io.jsonwebtoken.security.Password;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class PersonService {
     private RoleRepository roleRepository;
     private VerificationTokenRepository tokenRepository;
 
+    @Autowired
     public PersonService(PersonFactory personFactory, PersonRepository personRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, VerificationTokenRepository tokenRepository) {
         this.personFactory = personFactory;
         this.personRepository = personRepository;
@@ -79,32 +81,6 @@ public class PersonService {
 
     public void save(Person person){
         personRepository.save(person);
-    }
-
-    public String createVerificationToken(Person person) {
-        String uuidToken = UUID.randomUUID().toString().replaceAll("-", "");
-        VerificationToken token = new VerificationToken();
-        token.setPerson(person);
-        token.setToken(uuidToken);
-        token.setExpiresAt(LocalDateTime.now().plusMinutes(15));
-        tokenRepository.save(token);
-        return uuidToken;
-    }
-
-    public Optional<VerificationToken> getVerificationTokenbyToken(String token) {
-        return tokenRepository.getVerificationTokenByToken(token);
-    }
-
-    public Optional<Person> getPersonByVerificationToken(String token) {
-        return tokenRepository.getPersonByVerificationToken(token);
-    }
-
-    public Optional<VerificationToken> getVerificationTokenByPersonId(Long id) {
-        return tokenRepository.getVerificationTokenByPersonId(id);
-    }
-
-    public void saveToken(VerificationToken token) {
-        tokenRepository.save(token);
     }
 
 }

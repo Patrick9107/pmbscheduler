@@ -9,6 +9,7 @@ import at.spengergasse.pmbscheduler.repository.VerificationTokenRepository;
 import at.spengergasse.pmbscheduler.service.AuthService;
 import at.spengergasse.pmbscheduler.service.EmailSenderService;
 import at.spengergasse.pmbscheduler.service.PersonService;
+import at.spengergasse.pmbscheduler.service.VerificationTokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -43,6 +44,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     private AuthService authService;
     private PasswordEncoder passwordEncoder;
+    private VerificationTokenService tokenService;
 
 
 //    @PostMapping("login")
@@ -104,7 +106,7 @@ public class AuthController {
                                 + "Please note: This link will expire in 15 minutes.%n%n"
                                 + "Best regards,%n"
                                 + "The PMB-Scheduler Team",
-                        person.getLastName(), person.getFirstName(), personService.createVerificationToken(person))
+                        person.getLastName(), person.getFirstName(), tokenService.createVerificationToken(person))
         );
 
         return "redirect:../login";
@@ -112,7 +114,7 @@ public class AuthController {
 
     @GetMapping("/verify")
     public String verify(@RequestParam("token") String token) {
-        Optional<Person> personOptional = personService.getPersonByVerificationToken(token);
+        Optional<Person> personOptional = tokenService.getPersonByVerificationToken(token);
         if (token == null || personOptional.isEmpty()) {
             return "/error";
         }
@@ -123,12 +125,12 @@ public class AuthController {
             }
             // todo if token already expired
             // if token match
-            Optional<VerificationToken> tokenOptional = personService.getVerificationTokenByPersonId(personOptional.get().getId());
+            Optional<VerificationToken> tokenOptional = tokenService.getVerificationTokenByPersonId(personOptional.get().getId());
             if (tokenOptional.isPresent()) {
                 personOptional.get().setIsVerfied(true);
                 tokenOptional.get().setConfirmedAt(LocalDateTime.now());
                 personService.save(personOptional.get());
-                personService.saveToken(tokenOptional.get());
+                tokenService.saveToken(tokenOptional.get());
             }
 
         return "redirect:../";
