@@ -28,20 +28,15 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
     @NotNull
     private String firstName;
-    @NotEmpty
     @NotNull
     private String lastName;
-    @NotEmpty
     @NotNull
     private LocalDate birthDate;
-    @NotEmpty
     @Email
     @NotNull
     private String email;
-    @NotEmpty
     @NotNull
     private String password;
     @Value("${props.boolean.isFPL:#{false}}")

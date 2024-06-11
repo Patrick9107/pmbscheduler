@@ -26,19 +26,14 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
     @NotNull
     private String description;
-    @NotEmpty
     @NotNull
     private LocalDate appointmentDate;
-    @NotEmpty
     @NotNull
     private LocalTime time;
-    @NotEmpty
     @NotNull
     private String address;
-    @NotEmpty
     @NotNull
     private Integer availableSpots;
     @CreationTimestamp

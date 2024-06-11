@@ -22,13 +22,10 @@ public class Contact {
     private Long id;
 
     @Email
-    @NotEmpty
     @NotNull
     private String userEmail;
-    @NotEmpty
     @NotNull
     private String subject;
-    @NotEmpty
     @NotNull
     private String message;
 }
