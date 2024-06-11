@@ -26,6 +26,15 @@ header {
     top: 0;
     width: 100%;
     z-index: 1000;
+
+}
+
+#imprint-id{
+    margin-top: 4rem;
+}
+
+#imprint-main-id{
+    margin-top: -12rem;
 }
 
 header .logo img {
