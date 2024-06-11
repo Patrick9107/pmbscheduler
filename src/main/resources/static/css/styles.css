@@ -42,7 +42,7 @@ nav ul {
     display: flex;
     gap: 2rem; /* Adjust gap as needed */
     list-style: none;
-    margin: 0 auto 0 55%;
+    margin: 0 auto 0 65%;
     padding: 0; /* Remove padding */
 }
 
