@@ -1,11 +1,8 @@
 package at.spengergasse.pmbscheduler.controller;
 
 import at.spengergasse.pmbscheduler.model.Person;
-import at.spengergasse.pmbscheduler.model.Role;
 import at.spengergasse.pmbscheduler.model.VerificationToken;
-import at.spengergasse.pmbscheduler.repository.PersonRepository;
 import at.spengergasse.pmbscheduler.repository.RoleRepository;
-import at.spengergasse.pmbscheduler.repository.VerificationTokenRepository;
 import at.spengergasse.pmbscheduler.service.AuthService;
 import at.spengergasse.pmbscheduler.service.EmailSenderService;
 import at.spengergasse.pmbscheduler.service.PersonService;
@@ -15,11 +12,9 @@ import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +24,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -116,7 +110,7 @@ public class AuthController {
     public String verify(@RequestParam("token") String token) {
         Optional<Person> personOptional = tokenService.getPersonByVerificationToken(token);
         if (token == null || personOptional.isEmpty()) {
-            return "/error";
+            return "e";
         }
 
             if (personOptional.get().getIsVerfied()) {

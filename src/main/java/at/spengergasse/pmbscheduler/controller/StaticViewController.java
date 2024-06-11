@@ -1,12 +1,15 @@
 package at.spengergasse.pmbscheduler.controller;
 
 import at.spengergasse.pmbscheduler.service.AuthService;
+import at.spengergasse.pmbscheduler.service.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -15,10 +18,12 @@ import java.util.List;
 public class StaticViewController {
 
     private AuthService authService;
+    private EmailSenderService emailSenderService;
 
     @Autowired
-    public StaticViewController(AuthService authService) {
+    public StaticViewController(AuthService authService, EmailSenderService emailSenderService) {
         this.authService = authService;
+        this.emailSenderService = emailSenderService;
     }
 
     @GetMapping("/imprint")
@@ -56,9 +61,4 @@ public class StaticViewController {
         return "login.html";
     }
 
-    @GetMapping("/contact")
-    public String showContact(Model model) {
-        model.addAttribute("roles", authService.getAuthorities());
-        return "contact.html";
-    }
 }
