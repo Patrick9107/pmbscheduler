@@ -140,6 +140,11 @@ main {
     width: 49%;
 }
 
+#terms-main-id{
+    margin-top: 10rem;
+}
+
+
 #h1-welcome {
     font-size: 5rem;/* Space between heading and paragraph */
     margin-bottom: -3rem;
