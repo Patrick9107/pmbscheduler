@@ -14,7 +14,7 @@
 <main>
     <div th:if="${person != null}" class="profile-container">
         <h2>Profile</h2>
-        <form th:action="@{/auth/update-profile}" method="POST" th:object="${person}">
+        <form th:if="${mode == 'edit'}" th:action="@{/auth/update-profile}" method="POST" th:object="${person}">
             <div class="profile-info">
                 <label for="first-name">First Name</label>
                 <input type="text" id="first-name" name="firstName" th:value="${person.firstName}" required>
@@ -30,14 +30,38 @@
                 <input type="email" id="email" name="email" th:value="${person.email}" required>
             </div>
 
-            <button type="submit">Update Profile</button>
+            <button type="submit">Save Profile</button>
 
             <br>
             <br>
-            <a th:href="@{/logout}" class="logout-link">Logout</a>
+            <a th:href="@{/logout}" class="profile-link">Logout</a>
 
             <div th:if="${error}" th:text="'Error: ' + ${error}" class="error-message"></div>
         </form>
+        <div th:if="${mode == 'view'}" th:object="${person}">
+            <div class="profile-info">
+                <label for="first-name">First Name</label>
+                <input type="text" name="firstName" th:value="${person.firstName}" readonly>
+            </div>
+
+            <div class="profile-info">
+                <label for="last-nameView">Last Name</label>
+                <input type="text" id="last-nameView" name="lastName" th:value="${person.lastName}" readonly>
+            </div>
+
+            <div class="profile-info">
+                <label for="emailView">Email Address</label>
+                <input type="email" id="emailView" name="email" th:value="${person.email}" readonly>
+            </div>
+
+            <a th:href="@{profile?edit=''}" class="profile-link">Edit Profile</a>
+
+            <br>
+            <br>
+            <a th:href="@{/logout}" class="profile-link">Logout</a>
+
+            <div th:if="${error}" th:text="'Error: ' + ${error}" class="error-message"></div>
+        </div>
     </div>
 </main>
 <footer th:replace="~{fragments/footer :: footer}">

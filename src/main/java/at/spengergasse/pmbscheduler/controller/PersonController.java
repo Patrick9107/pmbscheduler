@@ -9,10 +9,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/user")
 public class PersonController {
 
     private PersonService personService;
@@ -25,13 +28,19 @@ public class PersonController {
         this.authService = authService;
     }
 
-    @GetMapping("/user/profile")
-    public String showProfile(Model model) {
+    @GetMapping("/profile")
+    public String getUserProfile(@RequestParam(value = "edit", required = false) String edit, Model model) {
         model.addAttribute("roles", authService.getAuthorities());
         personService.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).ifPresentOrElse(
                 person -> model.addAttribute("person", person),
                 () -> model.addAttribute("person", null));
-        return "user/profile.html";
+        if (edit != null) {
+            model.addAttribute("mode", "edit");
+            return "/user/profile.html";
+        } else {
+            model.addAttribute("mode", "view");
+            return "/user/profile.html";
+        }
     }
 
 

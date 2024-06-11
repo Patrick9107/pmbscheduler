@@ -600,7 +600,7 @@ td {
     transform: translateY(-2px);
 }
 
-.logout-link {
+.profile-link {
     background-color: red;
     border-radius: 0.3125rem; /* 5px */
     color: white;
@@ -612,7 +612,7 @@ td {
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.logout-link:hover {
+.profile-link:hover {
     background-color: darkred;
     transform: translateY(-2px);
 }

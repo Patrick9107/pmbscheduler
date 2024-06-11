@@ -3,15 +3,12 @@ package at.spengergasse.pmbscheduler.controller;
 import at.spengergasse.pmbscheduler.service.AuthService;
 import at.spengergasse.pmbscheduler.service.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 
 
 @Controller
