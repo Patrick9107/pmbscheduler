@@ -45,15 +45,6 @@ public class PersonController {
         }
     }
 
-
-    //TODO changes the route to a proper one!
-    @GetMapping("/personData")
-    public String returnPersonData(Model model){
-        List<Person> persons = personService.generateFakePersons(10); // Generate 10 fake persons
-        model.addAttribute("persons", persons);
-        return "index.html";
-    }
-
     @PostMapping("/update-profile")
     public String updateProfile(@RequestParam(value = "firstName", required = false) String firstName,
                                 @RequestParam(value = "lastName", required = false) String lastName,
