@@ -76,8 +76,11 @@ public class AppointmentController {
 
         model.addAttribute("roles", authService.getAuthorities());
 
-        Long personSumForAppointment = appointmentService.getPersonSumForAppointment().get(0);
-        model.addAttribute("personSumForAppointment", personSumForAppointment);
+        if(!appointmentService.getPersonSumForAppointment().isEmpty()){
+            Long personSumForAppointment = appointmentService.getPersonSumForAppointment().getFirst();
+            model.addAttribute("personSumForAppointment", personSumForAppointment);
+        }
+
 
         Optional<Appointment> appointment = appointmentService.getNextAppointment();
         model.addAttribute("appointment", appointment.orElse(null));
