@@ -1,6 +1,7 @@
 package at.spengergasse.pmbscheduler.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,14 +25,20 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty
     @NotNull
     private String description;
+    @NotEmpty
     @NotNull
     private LocalDate appointmentDate;
+    @NotEmpty
     @NotNull
     private LocalTime time;
+    @NotEmpty
     @NotNull
     private String address;
+    @NotEmpty
     @NotNull
     private Integer availableSpots;
     @CreationTimestamp
