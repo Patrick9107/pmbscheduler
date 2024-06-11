@@ -40,13 +40,7 @@
             <p><strong>Date:</strong> <span th:text="${appointment.appointmentDate}"></span></p>
             <p><strong>Location:</strong> <span th:text="${appointment.address}"></span></p>
             <p><strong>Description:</strong> <span th:text="${appointment.description}"></span></p>
-            <p><strong>Spots Available:</strong> <span th:text="${appointment.availableSpots}"></span></p>
-            <h3>Registered Users</h3>
-            <ul>
-                <li>User 1</li>
-                <li>User 2</li>
-                <li>User 3</li>
-            </ul>
+            <p><strong>Spots Available:</strong> <span th:text=" ${personSumForAppointment} + '/'+${appointment.availableSpots}"></span></p>
         </div>
     </div>
 </main>
