@@ -129,8 +129,24 @@ main {
     width: 35%; /* Adjust width as needed */
 }
 
+.text-right-terns {
+    color: white;
+    font-size: 1.4rem;
+    margin-right: 10%; /* Move the text more to the left */
+    margin-top: -20%; /* Move the text further up */
+    width: 36%; /* Adjust width as needed */
+}
+
 #div-welcome {
     width: 68.5%;
+}
+#div-terms {
+    width: 80.5%;
+}
+
+#h1-terms{
+    font-size: 5rem;/* Space between heading and paragraph */
+    margin-bottom: 3rem;
 }
 
 #div-pmbscheduler {
